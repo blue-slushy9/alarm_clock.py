@@ -1,10 +1,6 @@
 import sched, time
 
-#tz = pytz.timezone('US/Pacific')
-
-#current_time = datetime.datetime.now(tz)
-
-print("This is an alarm clock app! Please enter the time you wish for your alarm to go off, either AM/PM or 2400 format is fine.")
+print("This is an alarm clock app! Please enter the time you wish for your alarm to go off. You may use the format 00:00AM or PM; military time is also acceptable, e.g. 18:00 for 06:00PM.")
 
 alarm_time = input().lower()
 print()
@@ -13,8 +9,6 @@ print("Do you want this alarm to go off every day, or just once?")
 
 alarm_frequency = input().lower()
 print()
-
-#print(current_time)
 
 # Define the alarm function
 
@@ -29,17 +23,48 @@ scheduler = sched.scheduler(time.time, time.sleep)
 
 alarm_list = []
 
-if 'am' in alarm_time:
+if len(alarm_time) == 7 and 'am' in alarm_time:
+   
     for char in alarm_time:
         alarm_list.append(char)
+   
     for char in 'am':
         alarm_list.remove(char)
+   
     if len(alarm_list) == 1:
-        alarm_time = time.strptime(f'0{alarm_list[0]}:00', '%H:%M')
-        alarm_time = time.mktime(alarm_time)
-        scheduler.enterabs(alarm_time, 1, alarm)
+        alarm_time2 = time.strptime(f'0{alarm_list[0]}:00', '%H:%M')
+        alarm_time2 = time.mktime(alarm_time2)
+        scheduler.enterabs(alarm_time2, 1, alarm)
 
+    elif len(alarm_list) == 2:
+        alarm_time2 = time.strptime(f'{alarm_list[0]}{alarm_list[1]}:00', '%H:%M')
+        alarm_time2 = time.mktime(alarm_time2)
+        scheduler.enterabs(alarm_time2, 1, alarm)
+            
+elif len(alarm_time) == 7 and 'pm' in alarm_time:
+    
+    for char in alarm_time:
+        alarm_list.append(char)
+   
+    for char in 'pm':
+        alarm_list.remove(char)
+    alarm_first_two = (''.join(alarm_list[0]+alarm_list[1]))
+    military_format = int(alarm_first_two) + 12
+    military_format = str(military_format)
+   
+    for x in range(len(military_format)):
+        alarm_list[x] = military_format[x]
+    alarm_joined = (''.join(alarm_list))    
+    alarm_time2 = time.strptime(f'{alarm_joined}', '%H:%M')
+    alarm_time2 = time.mktime(alarm_time2)
+    scheduler.enterabs(alarm_time2, 1, alarm)
 
+elif len(alarm_time) == 5 and ':' in alarm_time:
+    alarm_time2 = time.strptime(f'{alarm_time}', '%H:%M')
+    alarm_time2 = time.mktime(alarm_time2)
+    scheduler.enterabs(alarm_time2, 1, alarm)
 
+else:
+    print("This is an invalid time format, please run the program again and enter a valid time format per the instructions.")
 
 scheduler.run()
