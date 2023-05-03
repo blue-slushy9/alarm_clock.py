@@ -1,8 +1,8 @@
-import sched, time
+import sched, datetime
 
 print("This is an alarm clock app! Please enter the time you wish for your alarm to go off. You may use the format 00:00AM or PM; military time is also acceptable, e.g. 18:00 for 06:00PM.")
 
-alarm_time = input().lower()
+alarm_time = input().upper()
 print()
 
 # print("Do you want this alarm to go off every day, or just once?")
@@ -15,14 +15,16 @@ def alarm():
     print(f"Ring! It's {alarm_time}, time to wake up!")
 
 # Create a scheduler object where time.time is the current time, and time.sleep is
-# how long Python should wait to run the program?
-scheduler = sched.scheduler(time.time, time.sleep)
+# how long Python should wait to run the program;
+# scheduler = sched.scheduler(time.time, time.sleep)
+
+print(datetime.datetime.now())
 
 # Create a list we will use to manipulate the string time input in various ways;
 alarm_list = []
 
 # This if statement will cover AM times;
-if len(alarm_time) == 7 and 'am' in alarm_time:
+if len(alarm_time) == 7 and 'AM' in alarm_time:
    
 # Turn the string time input into a list in order to remove the 'AM';
 
@@ -30,8 +32,8 @@ if len(alarm_time) == 7 and 'am' in alarm_time:
     for char in alarm_time:
         alarm_list.append(char)
    
-# Remove the 'a' and 'm' from the list by looping through 'am' string;  
-    for char in 'am':
+# Remove the 'A' and 'M' from the list by looping through 'am' string;  
+    for char in 'AM':
         alarm_list.remove(char)
 
 # Create a new string by joining the list elements, which is now only numbers;
@@ -41,12 +43,24 @@ if len(alarm_time) == 7 and 'am' in alarm_time:
 # and returns the time.struct_time object, which in turn represents the specified time, i.e. the input; the
 # time.struct_time object contains the hour, minute, second, and other attributes of the specified time, which
 # are then passed to the alarm_time2 variable;
-    alarm_time2 = time.strptime(f'{alarm_joined}', '%H:%M')
-    alarm_time2 = time.mktime(alarm_time2)
-    scheduler.enterabs(alarm_time2, 1, alarm)
+    print(datetime.now())
+#    alarm_time2 = time.struct_time()
+
+
+#    alarm_time2 = time.strptime(f'{alarm_joined}', '%H:%M')
+#    print(alarm_time2)
+
+# Converts the time.struct_time object into a Unix timestamp using the mktime() method, which returns a floating-
+# point number that represents the Unix timestamp, which then gets assigned to the variable alarm_time2; 
+#    alarm_time2 = time.mktime(alarm_time2)
+#    print(alarm_time2)
+# Uses the enterabs() method to schedule a function call to our alarm function at a specific absolute time;
+# sched.scheduler class provides event scheduler for Python; alarm_time2 is the time at which the function 
+# alarm will be run, with a priority level of 1 (the lower the number, the higher the priority);
+#    scheduler.enterabs(alarm_time2, 1, alarm)
 
 # This if statement will cover PM times;
-elif len(alarm_time) == 7 and 'pm' in alarm_time:
+elif len(alarm_time) == 7 and 'PM' in alarm_time:
 
 # Turn the string time input into a list in order to remove the 'PM';
 
@@ -54,8 +68,8 @@ elif len(alarm_time) == 7 and 'pm' in alarm_time:
     for char in alarm_time:
         alarm_list.append(char)
 
-# Remove the 'p' and 'm' from the list by looping through 'pm' string;  
-    for char in 'pm':
+# Remove the 'P' and 'M' from the list by looping through 'PM' string;  
+    for char in 'PM':
         alarm_list.remove(char)
 
 # We need to add 12 hours to the first two digits for PM times, since Python doesn't understand AM/PM;
@@ -81,11 +95,11 @@ elif len(alarm_time) == 7 and 'pm' in alarm_time:
 # and returns the time.struct_time object, which in turn represents the specified time, i.e. the input; the
 # time.struct_time object contains the hour, minute, second, and other attributes of the specified time, which
 # are then passed to the alarm_time2 variable;
-    alarm_time2 = time.strptime(f'{alarm_joined}', '%H:%M')
+#    alarm_time2 = time.strptime(f'{alarm_joined}', '%H:%M')
     
 # Converts the time.struct_time object into a Unix timestamp using the mktime() method, which returns a floating-
 # point number that represents the Unix timestamp, which then gets assigned to the variable alarm_time2; 
-    alarm_time2 = time.mktime(alarm_time2)
+#    alarm_time2 = time.mktime(alarm_time2)
     
 # Uses the enterabs() method to schedule a function call to our alarm function at a specific absolute time;
 # sched.scheduler class provides event scheduler for Python; alarm_time2 is the time at which the function 
