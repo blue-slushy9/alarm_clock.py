@@ -1,4 +1,4 @@
-import sched, datetime
+import sched, datetime, time
 
 print("This is an alarm clock app! Please enter the time you wish for your alarm to go off. You may use the format 00:00AM or PM; military time is also acceptable, e.g. 18:00 for 06:00PM.")
 
@@ -14,11 +14,16 @@ print()
 def alarm():
     print(f"Ring! It's {alarm_time}, time to wake up!")
 
-# Create a scheduler object where time.time is the current time, and time.sleep is
-# how long Python should wait to run the program;
-# scheduler = sched.scheduler(time.time, time.sleep)
+# Create a function that will get you the current time in seconds (we need it in seconds
+# in order to pass it to the scheduler a few lines down); 1970 is when the current epoch 
+# began, so we subtract it from the datetime now because Python only counts time FROM 1970;
+# then we use the total_seconds() method to convert this elapsed time to seconds;
+def current_time():
+    return (datetime.datetime.now() - datetime.datetime(1970,1,1)).total_seconds()
 
-print(datetime.datetime.now())
+# Create a scheduler object where current_time is the current time in seconds, and time.sleep is
+# how long Python should wait to run the program;
+scheduler = sched.scheduler(current_time, time.sleep)
 
 # Create a list we will use to manipulate the string time input in various ways;
 alarm_list = []
@@ -32,7 +37,7 @@ if len(alarm_time) == 7 and 'AM' in alarm_time:
     for char in alarm_time:
         alarm_list.append(char)
    
-# Remove the 'A' and 'M' from the list by looping through 'am' string;  
+# Remove the 'A' and 'M' from the list by looping through 'AM' string;  
     for char in 'AM':
         alarm_list.remove(char)
 
@@ -43,9 +48,17 @@ if len(alarm_time) == 7 and 'AM' in alarm_time:
 # and returns the time.struct_time object, which in turn represents the specified time, i.e. the input; the
 # time.struct_time object contains the hour, minute, second, and other attributes of the specified time, which
 # are then passed to the alarm_time2 variable;
-    print(datetime.now())
-#    alarm_time2 = time.struct_time()
 
+# Create a datetime_list to store the datetime elements after parsing;
+    datetime_list = []
+
+# Split (parse) the information contained in datetime and add it to datetime_list;
+    datetime_var = datetime.datetime.now()
+    print(datetime_var)
+#    datetime_var = datetime_var.split('-')
+#    print(datetime_var)
+
+#    alarm_time2 = time.struct_time()
 
 #    alarm_time2 = time.strptime(f'{alarm_joined}', '%H:%M')
 #    print(alarm_time2)
@@ -118,4 +131,4 @@ else:
     print("This is an invalid time format, please run the program again and enter a valid time format per the instructions.")
 
 # Initiate the scheduler, which tells Python to run the 'alarm' function at the specified time (alarm_time2);
-scheduler.run()
+#scheduler.run()
