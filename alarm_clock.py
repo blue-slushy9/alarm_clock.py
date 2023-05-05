@@ -49,28 +49,21 @@ if len(alarm_time) == 7 and 'AM' in alarm_time:
 # time.struct_time object contains the hour, minute, second, and other attributes of the specified time, which
 # are then passed to the alarm_time2 variable;
 
-# Create a datetime_list to store the datetime elements after parsing;
-    datetime_list = []
-
-# Split (parse) the information contained in datetime and add it to datetime_list;
+# Create a datetime variable that will store the current date and time;
     datetime_var = datetime.datetime.now()
-    print(datetime_var)
-#    datetime_var = datetime_var.split('-')
-#    print(datetime_var)
+    
+# timetuple() method converts our datetime variable into a time.struct_time object;
+    time_tuple = datetime_var.timetuple()
+    
+# mktime() method converts the time.struct_time object into a Unix timestamp, a floating point number equal to 
+# the seconds that have passed since the current epoch began to whatever endtime we specify, in this case the 
+# current time;
+    alarm_time2 = time.mktime(time_tuple)
 
-#    alarm_time2 = time.struct_time()
-
-#    alarm_time2 = time.strptime(f'{alarm_joined}', '%H:%M')
-#    print(alarm_time2)
-
-# Converts the time.struct_time object into a Unix timestamp using the mktime() method, which returns a floating-
-# point number that represents the Unix timestamp, which then gets assigned to the variable alarm_time2; 
-#    alarm_time2 = time.mktime(alarm_time2)
-#    print(alarm_time2)
 # Uses the enterabs() method to schedule a function call to our alarm function at a specific absolute time;
 # sched.scheduler class provides event scheduler for Python; alarm_time2 is the time at which the function 
 # alarm will be run, with a priority level of 1 (the lower the number, the higher the priority);
-#    scheduler.enterabs(alarm_time2, 1, alarm)
+    scheduler.enterabs(alarm_time2, 1, alarm)
 
 # This if statement will cover PM times;
 elif len(alarm_time) == 7 and 'PM' in alarm_time:
