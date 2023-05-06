@@ -44,11 +44,11 @@ if len(alarm_time) == 7 and 'AM' in alarm_time:
 #        alarm_list.remove(char)
 
 # Create a variable HH that will store the hours portion of the alarm time as an integer;
-    HH = int((alarm_list[0]+alarm_list[1]))
-
+    HH = int((alarm_time[0:2]))
+    
 # Create a variable MM that will store the minutes portion of the alarm time as an integer;
 # We skip over alarm_list[2] because that is the ':' ;
-    MM = int((alarm_list[3]+alarm_list[4]))
+    MM = int((alarm_time[3:5]))
 
 # Create a new string by joining the list elements, which is now only numbers;
 #    alarm_joined = (''.join(alarm_list))
@@ -61,8 +61,8 @@ if len(alarm_time) == 7 and 'AM' in alarm_time:
 # Create an alarm_time2 variable that will store the current datetime; then we use the replace() function to 
 # overwrite the hour, minutes, etc. with our target time (the alarm time per user input); then we use the 
 # timedelta class to add x days to our alarm_time2, e.g. if we add 1 day the alarm will go off tomorrow;
-    alarm_time2 = datetime.datetime.now().replace(hour=HH, minute=MM) + timedelta(days=0)
-
+    alarm_time2 = datetime.datetime.now().replace(hour=HH, minute=MM, second=0, microsecond=0) + timedelta(days=0)
+    
 # Create a datetime variable that will store the current date and time;
 #    datetime_var = datetime.datetime.now()
     
@@ -85,31 +85,53 @@ elif len(alarm_time) == 7 and 'PM' in alarm_time:
 # Turn the string time input into a list in order to remove the 'PM';
 
 # Loop through the string characters and add them to alarm_list one by one;
-    for char in alarm_time:
-        alarm_list.append(char)
+#    for char in alarm_time:
+#        alarm_list.append(char)
 
 # Remove the 'P' and 'M' from the list by looping through 'PM' string;  
-    for char in 'PM':
-        alarm_list.remove(char)
+#    for char in 'PM':
+#        alarm_list.remove(char)
 
 # We need to add 12 hours to the first two digits for PM times, since Python doesn't understand AM/PM;
 
 # Join the list that we created from the string input, turning it into a new string;
-    alarm_first_two = (''.join(alarm_list[0]+alarm_list[1]))
+#    alarm_first_two = (''.join(alarm_list[0]+alarm_list[1]))
 
-# Cast the new string as an integer so we can add 12 to it, thereby converting it to military format; 
-    military_format = int(alarm_first_two) + 12
+# Create a variable HH that will store the hours portion of the alarm time as an integer, and cast it as an
+# integer so we can add 12 to it (military format) and pass it to the replace() function;
+    HH = int((alarm_time[0:2]))
 
+# Add 12 to HH, thereby converting it to military format; 
+    military_HH = (HH + 12)
+
+# Create a variable MM that will store the minutes portion of the alarm time as an integer;
+# We skip over alarm_list[2] because that is the ':' ;
+    MM = int((alarm_time[3:5]))
+
+# Create an alarm_time2 variable that will store the current datetime; then we use the replace() function to 
+# overwrite the hour, minutes, etc. with our target time (the alarm time per user input); then we use the 
+# timedelta class to add x days to our alarm_time2, e.g. if we add 1 day the alarm will go off tomorrow;
+    alarm_time2 = datetime.datetime.now().replace(hour=HH, minute=MM, second=0, microsecond=0) + timedelta(days=0)
+    print(f"The current time is: {datetime.datetime.now()}")
+    print(f"The alarm time is: {alarm_time2}")
+# timetuple() method converts our alarm_time2 variable into a time.struct_time object;
+    time_tuple = alarm_time2.timetuple()
+    print(time_tuple)
+# mktime() method converts the time.struct_time object into a Unix timestamp, a floating point number equal to 
+# the seconds that have passed since the current epoch began to whatever endtime we specify, in this case the 
+# the alarm time (but we use alarm_time2 because that's the one that's in the correct format);
+    alarm_time2 = time.mktime(time_tuple)
+    print(alarm_time2)
 # Revert back to string so we can loop through it in next step; 
-    military_format = str(military_format)
+#    military_format = str(military_format)
 
 # Loop through the new military time we created, as well as our original alarm list, and replace the alarm 
 # list elements with our new military time digits;
-    for x in range(len(military_format)):
-        alarm_list[x] = military_format[x]
+#    for x in range(len(military_format)):
+#        alarm_list[x] = military_format[x]
 
 # Create a new string by joining the list elements, which consists of the military time digits;
-    alarm_joined = (''.join(alarm_list))
+#    alarm_joined = (''.join(alarm_list))
 
 # Converts the alarm_joined string into a time.struct_time object; strptime() parses the alarm_joined string
 # and returns the time.struct_time object, which in turn represents the specified time, i.e. the input; the
@@ -129,13 +151,34 @@ elif len(alarm_time) == 7 and 'PM' in alarm_time:
 
 # This statement will cover military time input;
 elif len(alarm_time) == 5 and ':' in alarm_time:
-    alarm_time2 = time.strptime(f'{alarm_time}', '%H:%M')
-    alarm_time2 = time.mktime(alarm_time2)
-    scheduler.enterabs(alarm_time2, 1, alarm)
+
+# Create a variable HH that will store the hours portion of the alarm time as an integer, cast it as an integer
+# and then pass it to the replace() function;
+    HH = int((alarm_time[0:2]))
+
+# Create a variable MM that will store the minutes portion of the alarm time as an integer;
+# We skip over alarm_list[2] because that is the ':' ;
+    MM = int((alarm_time[3:5]))
+
+# Create an alarm_time2 variable that will store the current datetime; then we use the replace() function to 
+# overwrite the hour, minutes, etc. with our target time (the alarm time per user input); then we use the 
+# timedelta class to add x days to our alarm_time2, e.g. if we add 1 day the alarm will go off tomorrow;
+    alarm_time2 = datetime.datetime.now().replace(hour=HH, minute=MM, second=0, microsecond=0) + timedelta(days=0)
+
+#    alarm_time2 = time.strptime(f'{alarm_time}', '%H:%M')
+#    alarm_time2 = time.mktime(alarm_time2)
+#    scheduler.enterabs(alarm_time2, 1, alarm)
+
+    while True:
+        now = datetime.datetime.now()
+        
+        if now >= alarm_time2:
+            alarm()
+            break
 
 # This else statement will run when an invalid time format is entered, e.g. '630AM';
 else:
     print("This is an invalid time format, please run the program again and enter a valid time format per the instructions.")
 
 # Initiate the scheduler, which tells Python to run the 'alarm' function at the specified time (alarm_time2);
-scheduler.run()
+#scheduler.run()
