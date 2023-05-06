@@ -1,4 +1,5 @@
 import sched, datetime, time
+from datetime import timedelta
 
 print("This is an alarm clock app! Please enter the time you wish for your alarm to go off. You may use the format 00:00AM or PM; military time is also acceptable, e.g. 18:00 for 06:00PM.")
 
@@ -16,7 +17,7 @@ def alarm():
 
 # Create a function that will get you the current time in seconds (we need it in seconds
 # in order to pass it to the scheduler a few lines down); 1970 is when the current epoch 
-# began, so we subtract it from the datetime now because Python only counts time FROM 1970;
+# began, so we subtract it from the datetimenow because Python only counts time FROM 1970;
 # then we use the total_seconds() method to convert this elapsed time to seconds;
 def current_time():
     return (datetime.datetime.now() - datetime.datetime(1970,1,1)).total_seconds()
@@ -26,42 +27,55 @@ def current_time():
 scheduler = sched.scheduler(current_time, time.sleep)
 
 # Create a list we will use to manipulate the string time input in various ways;
-alarm_list = []
+#alarm_list = []
 
-# This if statement will cover AM times;
+# This if statement will cover AM times, the if statement is there to ensure the format for the 
+# alarm time entered is correct;
 if len(alarm_time) == 7 and 'AM' in alarm_time:
    
 # Turn the string time input into a list in order to remove the 'AM';
 
 # Loop through the string characters and add them to alarm_list one by one;
-    for char in alarm_time:
-        alarm_list.append(char)
+#    for char in alarm_time:
+#        alarm_list.append(char)
    
 # Remove the 'A' and 'M' from the list by looping through 'AM' string;  
-    for char in 'AM':
-        alarm_list.remove(char)
+#    for char in 'AM':
+#        alarm_list.remove(char)
+
+# Create a variable HH that will store the hours portion of the alarm time as an integer;
+    HH = int((alarm_list[0]+alarm_list[1]))
+
+# Create a variable MM that will store the minutes portion of the alarm time as an integer;
+# We skip over alarm_list[2] because that is the ':' ;
+    MM = int((alarm_list[3]+alarm_list[4]))
 
 # Create a new string by joining the list elements, which is now only numbers;
-    alarm_joined = (''.join(alarm_list))
+#    alarm_joined = (''.join(alarm_list))
 
 # Converts the alarm_joined string into a time.struct_time object; strptime() parses the alarm_joined string
 # and returns the time.struct_time object, which in turn represents the specified time, i.e. the input; the
 # time.struct_time object contains the hour, minute, second, and other attributes of the specified time, which
 # are then passed to the alarm_time2 variable;
 
+# Create an alarm_time2 variable that will store the current datetime; then we use the replace() function to 
+# overwrite the hour, minutes, etc. with our target time (the alarm time per user input); then we use the 
+# timedelta class to add x days to our alarm_time2, e.g. if we add 1 day the alarm will go off tomorrow;
+    alarm_time2 = datetime.datetime.now().replace(hour=HH, minute=MM) + timedelta(days=0)
+
 # Create a datetime variable that will store the current date and time;
-    datetime_var = datetime.datetime.now()
+#    datetime_var = datetime.datetime.now()
     
-# timetuple() method converts our datetime variable into a time.struct_time object;
-    time_tuple = datetime_var.timetuple()
+# timetuple() method converts our alarm_time2 variable into a time.struct_time object;
+    time_tuple = alarm_time2.timetuple()
     
 # mktime() method converts the time.struct_time object into a Unix timestamp, a floating point number equal to 
 # the seconds that have passed since the current epoch began to whatever endtime we specify, in this case the 
-# current time;
+# the alarm time (but we use alarm_time2 because that's the one that's in the correct format);
     alarm_time2 = time.mktime(time_tuple)
 
 # Uses the enterabs() method to schedule a function call to our alarm function at a specific absolute time;
-# sched.scheduler class provides event scheduler for Python; alarm_time2 is the time at which the function 
+# sched.scheduler class provides event scheduling for Python; alarm_time2 is the time at which the function 
 # alarm will be run, with a priority level of 1 (the lower the number, the higher the priority);
     scheduler.enterabs(alarm_time2, 1, alarm)
 
@@ -124,4 +138,4 @@ else:
     print("This is an invalid time format, please run the program again and enter a valid time format per the instructions.")
 
 # Initiate the scheduler, which tells Python to run the 'alarm' function at the specified time (alarm_time2);
-#scheduler.run()
+scheduler.run()
