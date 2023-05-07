@@ -67,12 +67,23 @@ if len(alarm_time) == 7 and 'AM' in alarm_time:
 #    datetime_var = datetime.datetime.now()
     
 # timetuple() method converts our alarm_time2 variable into a time.struct_time object;
-    time_tuple = alarm_time2.timetuple()
+#    time_tuple = alarm_time2.timetuple()
     
 # mktime() method converts the time.struct_time object into a Unix timestamp, a floating point number equal to 
 # the seconds that have passed since the current epoch began to whatever endtime we specify, in this case the 
 # the alarm time (but we use alarm_time2 because that's the one that's in the correct format);
-    alarm_time2 = time.mktime(time_tuple)
+#    alarm_time2 = time.mktime(time_tuple)
+
+# Create a while loop that will constantly check the datetime.now, then assign it to the variable now; 
+    while True:
+        now = datetime.datetime.now()
+# Create an if statement inside of the while loop that will compare the now variable to the alarm time per
+# user input; if the now variable matches or exceeds the datetime of the input alarm time...
+        if now >= alarm_time2:
+# Then the alarm function will run!           
+            alarm()
+# Then we break the loop because the alarm has already sounded;
+            break
 
 # Uses the enterabs() method to schedule a function call to our alarm function at a specific absolute time;
 # sched.scheduler class provides event scheduling for Python; alarm_time2 is the time at which the function 
@@ -113,13 +124,24 @@ elif len(alarm_time) == 7 and 'PM' in alarm_time:
 # timedelta class to add x days to our alarm_time2, e.g. if we add 1 day the alarm will go off tomorrow;
     alarm_time2 = datetime.datetime.now().replace(hour=HH, minute=MM, second=0, microsecond=0) + timedelta(days=0)
 
+# Create a while loop that will constantly check the datetime.now, then assign it to the variable now; 
+    while True:
+        now = datetime.datetime.now()
+# Create an if statement inside of the while loop that will compare the now variable to the alarm time per
+# user input; if the now variable matches or exceeds the datetime of the input alarm time...
+        if now >= alarm_time2:
+# Then the alarm function will run!           
+            alarm()
+# Then we break the loop because the alarm has already sounded;
+            break
+
 # timetuple() method converts our alarm_time2 variable into a time.struct_time object;
-    time_tuple = alarm_time2.timetuple()
+#    time_tuple = alarm_time2.timetuple()
 
 # mktime() method converts the time.struct_time object into a Unix timestamp, a floating point number equal to 
 # the seconds that have passed since the current epoch began to whatever endtime we specify, in this case the 
 # the alarm time (but we use alarm_time2 because that's the one that's in the correct format);
-    alarm_time2 = time.mktime(time_tuple)
+#    alarm_time2 = time.mktime(time_tuple)
 
 # Revert back to string so we can loop through it in next step; 
 #    military_format = str(military_format)
@@ -147,7 +169,6 @@ elif len(alarm_time) == 7 and 'PM' in alarm_time:
 # alarm will be run, with a priority level of 1 (the lower the number, the higher the priority);
 #    scheduler.enterabs(alarm_time2, 1, alarm)
 
-
 # This statement will cover military time input;
 elif len(alarm_time) == 5 and ':' in alarm_time:
 
@@ -168,11 +189,15 @@ elif len(alarm_time) == 5 and ':' in alarm_time:
 #    alarm_time2 = time.mktime(alarm_time2)
 #    scheduler.enterabs(alarm_time2, 1, alarm)
 
+# Create a while loop that will constantly check the datetime.now, then assign it to the variable now; 
     while True:
         now = datetime.datetime.now()
-        
+# Create an if statement inside of the while loop that will compare the now variable to the alarm time per
+# user input; if the now variable matches or exceeds the datetime of the input alarm time...
         if now >= alarm_time2:
+# Then the alarm function will run!           
             alarm()
+# Then we break the loop because the alarm has already sounded;
             break
 
 # This else statement will run when an invalid time format is entered, e.g. '630AM';
