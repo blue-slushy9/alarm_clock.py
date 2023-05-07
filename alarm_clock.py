@@ -1,4 +1,4 @@
-import sched, datetime, time
+import datetime
 from datetime import timedelta
 
 print("This is an alarm clock app! Please enter the time you wish for your alarm to go off. You may use the format 00:00AM or PM; military time is also acceptable, e.g. 18:00 for 06:00PM.")
@@ -19,12 +19,12 @@ def alarm():
 # in order to pass it to the scheduler a few lines down); 1970 is when the current epoch 
 # began, so we subtract it from the datetimenow because Python only counts time FROM 1970;
 # then we use the total_seconds() method to convert this elapsed time to seconds;
-def current_time():
-    return (datetime.datetime.now() - datetime.datetime(1970,1,1)).total_seconds()
+#def current_time():
+#    return (datetime.datetime.now() - datetime.datetime(1970,1,1)).total_seconds()
 
 # Create a scheduler object where current_time is the current time in seconds, and time.sleep is
 # how long Python should wait to run the program;
-scheduler = sched.scheduler(current_time, time.sleep)
+#scheduler = sched.scheduler(current_time, time.sleep)
 
 # Create a list we will use to manipulate the string time input in various ways;
 #alarm_list = []
@@ -77,7 +77,7 @@ if len(alarm_time) == 7 and 'AM' in alarm_time:
 # Uses the enterabs() method to schedule a function call to our alarm function at a specific absolute time;
 # sched.scheduler class provides event scheduling for Python; alarm_time2 is the time at which the function 
 # alarm will be run, with a priority level of 1 (the lower the number, the higher the priority);
-    scheduler.enterabs(alarm_time2, 1, alarm)
+#    scheduler.enterabs(alarm_time2, 1, alarm)
 
 # This if statement will cover PM times;
 elif len(alarm_time) == 7 and 'PM' in alarm_time:
@@ -112,16 +112,15 @@ elif len(alarm_time) == 7 and 'PM' in alarm_time:
 # overwrite the hour, minutes, etc. with our target time (the alarm time per user input); then we use the 
 # timedelta class to add x days to our alarm_time2, e.g. if we add 1 day the alarm will go off tomorrow;
     alarm_time2 = datetime.datetime.now().replace(hour=HH, minute=MM, second=0, microsecond=0) + timedelta(days=0)
-    print(f"The current time is: {datetime.datetime.now()}")
-    print(f"The alarm time is: {alarm_time2}")
+
 # timetuple() method converts our alarm_time2 variable into a time.struct_time object;
     time_tuple = alarm_time2.timetuple()
-    print(time_tuple)
+
 # mktime() method converts the time.struct_time object into a Unix timestamp, a floating point number equal to 
 # the seconds that have passed since the current epoch began to whatever endtime we specify, in this case the 
 # the alarm time (but we use alarm_time2 because that's the one that's in the correct format);
     alarm_time2 = time.mktime(time_tuple)
-    print(alarm_time2)
+
 # Revert back to string so we can loop through it in next step; 
 #    military_format = str(military_format)
 
@@ -146,7 +145,7 @@ elif len(alarm_time) == 7 and 'PM' in alarm_time:
 # Uses the enterabs() method to schedule a function call to our alarm function at a specific absolute time;
 # sched.scheduler class provides event scheduler for Python; alarm_time2 is the time at which the function 
 # alarm will be run, with a priority level of 1 (the lower the number, the higher the priority);
-    scheduler.enterabs(alarm_time2, 1, alarm)
+#    scheduler.enterabs(alarm_time2, 1, alarm)
 
 
 # This statement will cover military time input;
