@@ -1,5 +1,5 @@
 import datetime
-from datetime import timedelta
+#from datetime import timedelta
 
 print("This is an alarm clock app! Please enter the time you wish for your alarm to go off. You may use the format 00:00AM or PM; military time is also acceptable, e.g. 18:00 for 06:00PM.")
 
@@ -61,7 +61,7 @@ if len(alarm_time) == 7 and 'AM' in alarm_time:
 # Create an alarm_time2 variable that will store the current datetime; then we use the replace() function to 
 # overwrite the hour, minutes, etc. with our target time (the alarm time per user input); then we use the 
 # timedelta class to add x days to our alarm_time2, e.g. if we add 1 day the alarm will go off tomorrow;
-    alarm_time2 = datetime.datetime.now().replace(hour=HH, minute=MM, second=0, microsecond=0) + timedelta(days=0)
+    alarm_time2 = datetime.datetime.now().replace(hour=HH, minute=MM, second=0, microsecond=0)# + timedelta(days=0)
     
 # Create a datetime variable that will store the current date and time;
 #    datetime_var = datetime.datetime.now()
@@ -82,6 +82,18 @@ if len(alarm_time) == 7 and 'AM' in alarm_time:
         if now >= alarm_time2:
 # Then the alarm function will run!           
             alarm()
+            print()
+# Ask the user whether they want the alarm to go off again at the same time tomorrow; 
+            print("Do you want this alarm to go off at the same time tomorrow? Please type 'yes' or 'y', 'no' or 'n'.")
+# Input can be yes or no, y or n; we use lower() so that it won't matter if they type in upper or lower case;            
+            tomorrow = input().lower()
+# If user wants alarm to ring tomorrow, we use continue to skip the code below and proceed to next iteration of the while loop;
+            if tomorrow == 'yes' or tomorrow == 'y':
+                continue
+# If user doesn't want alarm to ring tomorrow, we use break to exit the loop;
+            elif tomorrow == 'no' or tomorrow == 'n':
+                break
+
 # Then we break the loop because the alarm has already sounded;
             break
 
@@ -122,7 +134,7 @@ elif len(alarm_time) == 7 and 'PM' in alarm_time:
 # Create an alarm_time2 variable that will store the current datetime; then we use the replace() function to 
 # overwrite the hour, minutes, etc. with our target time (the alarm time per user input); then we use the 
 # timedelta class to add x days to our alarm_time2, e.g. if we add 1 day the alarm will go off tomorrow;
-    alarm_time2 = datetime.datetime.now().replace(hour=HH, minute=MM, second=0, microsecond=0) + timedelta(days=0)
+    alarm_time2 = datetime.datetime.now().replace(hour=HH, minute=MM, second=0, microsecond=0)# + timedelta(days=0)
 
 # Create a while loop that will constantly check the datetime.now, then assign it to the variable now; 
     while True:
@@ -183,7 +195,7 @@ elif len(alarm_time) == 5 and ':' in alarm_time:
 # Create an alarm_time2 variable that will store the current datetime; then we use the replace() function to 
 # overwrite the hour, minutes, etc. with our target time (the alarm time per user input); then we use the 
 # timedelta class to add x days to our alarm_time2, e.g. if we add 1 day the alarm will go off tomorrow;
-    alarm_time2 = datetime.datetime.now().replace(hour=HH, minute=MM, second=0, microsecond=0) + timedelta(days=0)
+    alarm_time2 = datetime.datetime.now().replace(hour=HH, minute=MM, second=0, microsecond=0)# + timedelta(days=0)
 
 #    alarm_time2 = time.strptime(f'{alarm_time}', '%H:%M')
 #    alarm_time2 = time.mktime(alarm_time2)
