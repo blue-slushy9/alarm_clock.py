@@ -12,7 +12,6 @@ def alarm():
 
 # Since the AM and military time formats are both using identical code, we can define a function to use
 # for both those cases;
-
 def alarm_execution(alarm_time):
 
     # Create a variable HH that will store the hours portion of the alarm time as an integer;
@@ -31,8 +30,8 @@ def alarm_execution(alarm_time):
     while True:
         now = datetime.datetime.now()
     
-    # Create an if statement inside of the while loop that will compare the now variable to the alarm time per
-    # user input; if the now variable matches or exceeds the datetime of the input alarm time...
+        # Create an if statement inside of the while loop that will compare the now variable to the alarm time per
+        # user input; if the now variable matches or exceeds the datetime of the input alarm time...
         if now >= alarm_time2:
             # Then the alarm function will run!           
             alarm()
@@ -59,6 +58,24 @@ def alarm_execution(alarm_time):
                 print("Invalid input, please rerun the program to set a new alarm.")
                 break
 
+# This function will be used to convert any PM time inputs into 24-hour format, as Python does not understand AM/PM format; all we need is the alarm_time, which is entered by the user;
+def pm_time_conversion(alarm_time):
+    # Cast first two digits in alarm time as integers so we can add 12;
+    HH = int((alarm_time[0:2]))
+    # Add 12;
+    HH += 12
+    # Recast first two digits as string so we can reinsert into original alarm_time string;
+    HH = str(HH)
+    # Cast original alarm_time string as list so we can replace first two digits;
+    alarm_time_list = list(alarm_time)
+    # Replace first two characters in string (first two digits) with new military time format;
+    alarm_time_list[0:2] = HH
+    # Join list back into a string we can pass the alarm_time argument to the alarm_execution function; 
+    alarm_time = (''.join(alarm_time_list))
+
+    # Nest the alarm_execution function inside of pm_time_conversion with modified alarm_time as argument;
+    alarm_execution(alarm_time)
+
 #####################
 
 # This if statement will cover AM times, the if statement is there to ensure the format for the 
@@ -70,20 +87,8 @@ if len(alarm_time) == 7 and 'AM' in alarm_time:
 
 # This if statement will cover PM times;
 elif len(alarm_time) == 7 and 'PM' in alarm_time:
-    # Cast first two digits in alarm time as integers so we can add 12;
-    HH = int((alarm_time[0:2]))
-    # Add 12;
-    HH += 12
-    # Recast first two digits as string so we can reinsert into original alarm_time string;
-    HH = str(HH)
-    # Cast original alarm_time string as list so we can replace first two digits;
-    alarm_time_list = list(alarm_time)
-    # Replace first two characters in string (first two digits) with new military time format;
-    alarm_time_list[0:2] = HH
-    # Join list back into a string we can pass the argument to the function;
-    alarm_time = (''.join(alarm_time_list))
-    # Pass argument to alarm execution function defined at the top;
-    alarm_execution(alarm_time)
+    # Call PM time conversion function to convert alarm_time into military format; also, the alarm_execution function is nested inside of pm_time_conversion, otherwise we would not be able to pass the modified alarm_time as it is a local variable;
+    pm_time_conversion(alarm_time)
     
 ##################
 
