@@ -1,7 +1,4 @@
-import datetime
-from datetime import timedelta
-
-print("This is an alarm clock app! Please enter the time you wish for your alarm to go off. You may use the format 00:00AM or PM; military time is also acceptable, e.g. 18:00 for 06:00PM.")
+from datetime import datetime, timedelta
 
 alarm_time = input().upper()
 print()
@@ -10,8 +7,7 @@ print()
 def alarm():
     print(f"Ring! It's {alarm_time}, time to wake up!")
 
-# Since the AM and military time formats are both using identical code, we can define a function to use
-# for both those cases;
+# Since the AM and military time formats are both using identical code, we can define a function to use for both those cases;
 def alarm_execution(alarm_time):
 
     # Create a variable HH that will store the hours portion of the alarm time as an integer;
@@ -24,7 +20,7 @@ def alarm_execution(alarm_time):
     # Create an alarm_time2 variable that will store the current datetime; then we use the replace() function to 
     # overwrite the hour, minutes, etc. with our target time (the alarm time per user input); then we use the 
     # timedelta class to add x days to our alarm_time2, e.g. if we add 1 day the alarm will go off tomorrow;
-    alarm_time2 = datetime.datetime.now().replace(hour=HH, minute=MM, second=0, microsecond=0)# + timedelta(days=0)
+    alarm_time2 = datetime.datetime.now().replace(hour=HH, minute=MM, second=0, microsecond=0)
     
     # Create a while loop that will constantly check the datetime.now, then assign it to the variable now; 
     while True:
