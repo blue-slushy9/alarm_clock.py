@@ -32,7 +32,7 @@ def alarm_execution(alarm_time):
     
         # Create an if statement inside of the while loop that will compare the now variable to the alarm time per
         # user input; if the now variable matches or exceeds the datetime of the input alarm time...
-        if now == alarm_time2:
+        if now >= alarm_time2:
             # Then the alarm function will run!           
             alarm()
             print()
@@ -58,16 +58,7 @@ def alarm_execution(alarm_time):
                 print("Invalid input, please rerun the program to set a new alarm.")
                 break
 
-        # This statement checks whether the time has already passed today, in which case the alarm will ring at the specified time tomorrow; 
-        elif now > alarm_time2:
-            print("This time has already passed for today's date! The alarm will be set for the same time tomorrow.")
-            print()
-            # We use the timedelta method to add 1 day to the alarm_time2 object, in which we previously stored the current month and day;
-            alarm_time2 += timedelta(days=1)
-            # Continue to next iteration of the while loop, this time with the date of the alarm time set to tomorrow;
-            continue
-
-        # Finally, introduce the time.sleep() function in order to add a 1-second pause between iterations of the loop, this helps conserve system resources;
+        # Finally, insert sleep() method to add 1-second pause between loop iterations, this helps conserve system resources;
         sleep(1)
 
 # This function will be used to convert any PM time inputs into 24-hour format, as Python does not understand AM/PM format; all we need is the alarm_time, which is entered by the user;
