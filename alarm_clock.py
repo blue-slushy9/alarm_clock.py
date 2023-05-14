@@ -1,9 +1,9 @@
 from datetime import datetime, timedelta
 from time import sleep
 
-print("This is an alarm clock app! Please enter the time you want for your 
-        alarm to ring. Please use the format 00:00AM or PM; military time is 
-        also acceptable, e.g. 18:00 for 06:00PM.")
+print("This is an alarm clock app! Please enter the time you want for your\n"
+        "alarm to ring. Please use the format 00:00AM or PM; military time is\n" 
+        "also acceptable, e.g. 18:00 for 06:00PM.")
 
 alarm_time = input().upper()
 print()
@@ -29,12 +29,13 @@ def time_conversion(alarm_time):
     # time as an integer; We skip over alarm_list[2] because that is the ':' ;
     MM = int((alarm_time[3:5]))
 
-    # Create an alarm_time2 variable that will store the current datetime, 
-    # then we use the replace() function to overwrite the hour and minutes 
-    # with our target time (the alarm time per user input); 
+    # Create an alarm_time2 global variable that will store the current 
+    # datetime, then we use the replace() function to overwrite the hour and 
+    # minutes with our target time (the alarm time per user input); 
     # using datetime ensures that the alarm will go off on the correct day, 
     # either today or tomorrow if the time has already passed today;
-    global alarm_time2 = datetime.now().replace(hour=HH, minute=MM)
+    global alarm_time2 
+    alarm_time2 = datetime.now().replace(hour=HH, minute=MM)
 
 ###############
 
@@ -74,8 +75,8 @@ def alarm_execution(alarm_time):
             
             # Ask the user whether they want the alarm to go off again at the 
             # same time tomorrow; 
-            print("Do you want this alarm to go off at the same time tomorrow? 
-                    Please type 'yes' or 'y', 'no' or 'n'.")
+            print("Do you want this alarm to go off at the same time tomorrow?\n" 
+                    "Please type 'yes' or 'y', 'no' or 'n'.")
             # Input can be yes or no, y or n; we use lower() so that it won't 
             # matter if they type in upper or lower case;            
             tomorrow = input().lower()
@@ -100,8 +101,8 @@ def alarm_execution(alarm_time):
             # tomorrow prompt, e.g. 'maybe';
             # the user would then need to rerun the program from the start;
             else:
-                print("Invalid input, please rerun the program to set a new 
-                        alarm.")
+                print("Invalid input, please rerun the program to set a new\n" 
+                        "alarm.")
                 break
 
         # Finally, insert sleep() method to add a 1-second pause between loop 
@@ -116,7 +117,7 @@ def alarm_execution(alarm_time):
 def alarm_delay(alarm_time2):
     #alarm_time2 = datetime.now().replace(hour=HH, minute=MM)
     alarm_time2 += timedelta(days=1)
-    alarm_execution(alarm_time)
+    alarm_execution(alarm_time2)
 
 ####################
 
@@ -160,8 +161,8 @@ if len(alarm_time) == 7 and 'AM' in alarm_time:
     now = datetime.now()
     # This if statement will apply if alarm_time2 is in the past or present; 
     if alarm_time2 <= now:
-        print("You've entered a time that has already passed for today's date.
-                The alarm will ring at the specified time tomorrow.")
+        print("You've entered a time that has already passed for today's date.\n"
+                "The alarm will ring at the specified time tomorrow.")
         print()
         # The function alarm_delay will run, which simply delays the alarm to the 
         # same time tomorrow;
@@ -220,5 +221,5 @@ elif len(alarm_time) == 5 and ':' in alarm_time:
 # This else statement will run when an invalid time format is entered, 
 # e.g. '630AM';
 else:
-    print("This is an invalid time format, please run the program again and 
-    enter a valid time format per the instructions.")
+    print("This is an invalid time format, please run the program again and\n" 
+    "enter a valid time format per the instructions.")
