@@ -8,10 +8,6 @@ print("This is an alarm clock app! Please enter the time you want for your\n"
 alarm_time = input().upper()
 print()
 
-# Since our if statements will compare the alarm_time to the current time, 
-# we create a variable (now) to store the current time;
-#now = datetime.now()
-
 # Define the alarm function, which will run at the time specified in the input;
 def alarm():
     print(f"Ring! It's {alarm_time}, time to wake up!")
@@ -46,21 +42,6 @@ def time_conversion(alarm_time):
 # manipulation to convert to military time;
 def alarm_execution(alarm_time2):
 
-    # Create a variable HH that will store the hours portion of the alarm time 
-    # as an integer;
-    #HH = int((alarm_time[0:2]))
-
-    # Create a variable MM that will store the minutes portion of the alarm 
-    # time as an integer; we skip over alarm_list[2] because that is the ':' ;
-    #MM = int((alarm_time[3:5]))
-
-    # Create an alarm_time2 variable that will store the current datetime, 
-    # then we use the replace() function to overwrite the hour and minutes 
-    # with our target time (the alarm time per user input); 
-    # using datetime ensures that the alarm will go off on the correct day, 
-    # either today or tomorrow if the time has already passed today;
-    #alarm_time2 = datetime.now().replace(hour=HH, minute=MM)
-    
     # Create a while loop that will constantly check the datetime.now, 
     # then assign it to the variable now; 
     while True:
@@ -116,7 +97,6 @@ def alarm_execution(alarm_time2):
 # alarm_time (user input) has already passed or is right now; 
 # the alarm will be delayed until tomorrow at the same time;
 def alarm_delay(alarm_time2):
-    #alarm_time2 = datetime.now().replace(hour=HH, minute=MM)
     alarm_time2 += timedelta(days=1)
     alarm_execution(alarm_time2)
 
@@ -147,10 +127,6 @@ def pm_time_conversion(alarm_time):
     # this one, as we still need to convert the alarm_time string into a
     # datetime object, i.e. alarm_time2;
     time_conversion(alarm_time)
-
-    # Nest the alarm_execution function inside of pm_time_conversion with 
-    # modified alarm_time as argument;
-    #alarm_execution(alarm_time2)
 
 #####################
 
@@ -189,23 +165,7 @@ if len(alarm_time) == 7 and 'AM' in alarm_time:
     # on the alarm_time2;
     delay_or_execute(alarm_time2)
 
-    # Create a local variable, now, that will store the value of datetime.now()
-    # for comparison to alarm_time2;
-    #now = datetime.now()
-    # This if statement will apply if alarm_time2 is in the past or present; 
-    #if alarm_time2 <= now:
-    #    print("You've entered a time that has already passed for today's date.\n"
-    #            "The alarm will ring at the specified time tomorrow.")
-    #    print()
-        # The function alarm_delay will run, which simply delays the alarm to the 
-        # same time tomorrow;
-    #    alarm_delay(alarm_time2)
-    # This if statement will apply if the alarm_time is in the future, 
-    # ergo the alarm_execution function will run;
-    #elif alarm_time2 > now: 
-    #    alarm_execution(alarm_time2)
-    
-######################
+#####################
 
 # This if statement will cover PM times;
 elif len(alarm_time) == 7 and 'PM' in alarm_time:
@@ -219,19 +179,6 @@ elif len(alarm_time) == 7 and 'PM' in alarm_time:
     # on the alarm_time2;
     delay_or_execute(alarm_time2)
 
-    # Create a variable, now, that will store the value of datetime.now() for 
-    # comparison to alarm_time2;
-    #now = datetime.now()
-    # This if statement will apply if alarm_time2 is in the past or present; 
-    # the function alarm_delay will run, which simply delays the alarm to the 
-    # same time tomorrow;
-    #if alarm_time <= now:
-    #    alarm_delay(alarm_time2)
-    # This if statement will apply if the alarm_time is in the future, ergo 
-    # the alarm_execution function will run;
-    #elif alarm_time2 > now: 
-    #    alarm_execution(alarm_time2)
-    
 ##################
 
 # This statement will cover military time input;
@@ -243,19 +190,6 @@ elif len(alarm_time) == 5 and ':' in alarm_time:
     # Call the function, delay_or_execute, which will decide what to do based
     # on the alarm_time2;
     delay_or_execute(alarm_time2)
-
-    # Create a variable, now, that will store the value of datetime.now() for 
-    # comparison to alarm_time2;
-    #now = datetime.now()
-    # This if statement will apply if alarm_time2 is in the past or present; 
-    # the function alarm_delay will run, which simply delays the alarm to the 
-    # same time tomorrow;
-    #if alarm_time2 <= now:
-    #    alarm_delay(alarm_time2)
-    # This if statement will apply if the alarm_time is in the future, ergo the
-    # alarm_execution function will run;
-    #elif alarm_time2 > now: 
-    #    alarm_execution(alarm_time2)
 
 ##################
 
