@@ -8,6 +8,8 @@ print("This is an alarm clock app! Please enter the time you want for your\n"
 alarm_time = input().upper()
 print()
 
+###############
+
 # Define the alarm function, which will run at the time specified in the input;
 def alarm():
     print(f"Ring! It's {alarm_time}, time to wake up!")
@@ -36,11 +38,9 @@ def time_conversion(alarm_time):
 
 ###############
 
-# Since the AM and military time formats both use identical code past the if 
-# statements, we can define a function to use for both those cases; 
-# We will define a separate function for the PM times, as those require some 
-# manipulation to convert to military time;
-def alarm_execution(alarm_time2):
+# This function will be used to set the alarm, it takes the datetime object as
+# its argument;
+def set_alarm(alarm_time2):
 
     # Create a while loop that will constantly check the datetime.now, 
     # then assign it to the variable now; 
@@ -48,11 +48,12 @@ def alarm_execution(alarm_time2):
         now = datetime.now()
     
         # Create an if statement inside of the while loop that will compare 
-        # the now variable to the alarm time per user input; 
+        # the now variable to the alarm_time2 datetime object; 
         # if the now variable matches or exceeds the alarm_time....
         if now >= alarm_time2:
-            # Then the alarm function will run!           
+            # then the alarm function will run, i.e. the alarm will ring!           
             alarm()
+            # Print a new line to improve legibility in terminal;
             print()
             
             # Ask the user whether they want the alarm to go off again at the 
@@ -62,6 +63,7 @@ def alarm_execution(alarm_time2):
             # Input can be yes or no, y or n; we use lower() so that it won't 
             # matter if they type in upper or lower case;            
             tomorrow = input().lower()
+            # Print a new line to improve legibility in terminal;
             print()
 
             # If user wants alarm to ring tomorrow, we use continue to skip 
@@ -85,6 +87,7 @@ def alarm_execution(alarm_time2):
             else:
                 print("Invalid input, please rerun the program to set a new\n" 
                         "alarm.")
+                print()
                 break
 
         # Finally, insert sleep() method to add a 1-second pause between loop 
@@ -96,37 +99,38 @@ def alarm_execution(alarm_time2):
 # This function will be used to delay the alarm, in the case that the 
 # alarm_time (user input) has already passed or is right now; 
 # the alarm will be delayed until tomorrow at the same time;
-def alarm_delay(alarm_time2):
+def delay_alarm(alarm_time2):
     alarm_time2 += timedelta(days=1)
-    alarm_execution(alarm_time2)
+    set_alarm(alarm_time2)
+
 ####################
 
 # This function will cover AM time conversion, which only applies during the
 # 12:xxAM times;
-def am_time_conversion():
+def am_time_conversion(alarm_time):
     HH = int((alarm_time[0:2]))
-    if HH == 12:
-        # Add 12;
-        HH -= 12
+    if HH == '12':
+        #HH = 
+        # Subtract 12;
+        #HH == 00
         # Recast first two digits as string so we can reinsert into original 
         # alarm_time string;
-        HH = str(HH)
+        #HH = str(HH)
         # Cast original alarm_time string as list so we can replace first two 
         # digits;
         alarm_time_list = list(alarm_time)
         # Replace first two characters in string (first two digits) with new 
         # military time format;
-        alarm_time_list[0:2] = HH
+        alarm_time_list[0:2] = [0,0]
         # Join list back into a string we can pass the alarm_time argument to the 
-        # alarm_execution function; 
+        # set_alarm function;
         alarm_time = (''.join(alarm_time_list))
-
+        print(alarm_time)
     # Finally, we nest the time_conversion function inside of
     # this one, as we still need to convert the alarm_time string into a
     # datetime object, i.e. alarm_time2;
     time_conversion(alarm_time)
-
-
+    
 ####################
 
 # This function will be used to convert any PM time inputs---OTHER THAN 12:xxPM
@@ -164,7 +168,7 @@ def pm_time_conversion(alarm_time):
 # the alarm should be delayed until tomorrow (in the case that the alarm_time
 # has already passed for today's date) or whether the alarm_execution function
 # should run normally;
-def delay_or_execute(alarm_time2):
+def set_or_delay(alarm_time2):
     # Create a local variable, now, that will store the value of datetime.now()
     # for comparison to alarm_time2;
     now = datetime.now()
@@ -175,28 +179,31 @@ def delay_or_execute(alarm_time2):
         print()
         # The function alarm_delay will run, which simply delays the alarm to the 
         # same time tomorrow;
-        alarm_delay(alarm_time2)
+        delay_alarm(alarm_time2)
     # This if statement will apply if the alarm_time is in the future, 
     # ergo the alarm_execution function will run;
     elif alarm_time2 > now: 
-        alarm_execution(alarm_time2)
+        set_alarm(alarm_time2)
 
 #####################
 
 # This if statement will cover AM times, the if statement is there to ensure 
 # the format for the alarm time entered is correct;
 if len(alarm_time) == 7 and 'AM' in alarm_time:
-    # This if statement covers 12:xxAM times, where we need to subtract 12;
-    #if HH == 12:
-    #    HH -= 12
-    # Run the time_conversion function to convert the alarm_time into a 
-    # datetime object, which then gets assigned to the global variable 
-    # alarm_time2;
-    time_conversion(alarm_time)
+    if alarm_time[0:2] == '12':
+        am_time_conversion(alarm_time)
+        # This if statement covers 12:xxAM times, where we need to subtract 12;
+        #if HH == 12:
+        #    HH -= 12
+        # Run the time_conversion function to convert the alarm_time into a 
+        # datetime object, which then gets assigned to the global variable 
+        # alarm_time2;
+    else: 
+        time_conversion(alarm_time)
 
     # Call the function, delay_or_execute, which will decide what to do based
     # on the alarm_time2;
-    delay_or_execute(alarm_time2)
+    set_or_delay(alarm_time2)
 
 #####################
 
@@ -210,7 +217,7 @@ elif len(alarm_time) == 7 and 'PM' in alarm_time:
    
     # Call the function, delay_or_execute, which will decide what to do based
     # on the alarm_time2;
-    delay_or_execute(alarm_time2)
+    set_or_delay(alarm_time2)
 
 ##################
 
@@ -222,7 +229,7 @@ elif len(alarm_time) == 5 and ':' in alarm_time:
     
     # Call the function, delay_or_execute, which will decide what to do based
     # on the alarm_time2;
-    delay_or_execute(alarm_time2)
+    set_or_delay(alarm_time2)
 
 ##################
 
