@@ -14,9 +14,9 @@ def alarm():
 
 ###############
 
-# This function will convert the AM and military alarm_time user inputs into a
+# This function will convert military alarm_time user inputs into a
 # datetime object, to be stored in the global variable alarm_time2;
-# Note that a separate function will have to be defined for PM times;
+# Note that separate functions will have to be defined for AM and PM times;
 def time_conversion(alarm_time):
     # Create a variable HH that will store the hours portion of the alarm time
     # as an integer;
@@ -89,7 +89,7 @@ def alarm_execution(alarm_time2):
 
         # Finally, insert sleep() method to add a 1-second pause between loop 
         # iterations, this helps conserve system resources;
-        sleep(1)
+        sleep(.5)
 
 ####################
 
@@ -99,29 +99,59 @@ def alarm_execution(alarm_time2):
 def alarm_delay(alarm_time2):
     alarm_time2 += timedelta(days=1)
     alarm_execution(alarm_time2)
+####################
+
+# This function will cover AM time conversion, which only applies during the
+# 12:xxAM times;
+def am_time_conversion():
+    HH = int((alarm_time[0:2]))
+    if HH == 12:
+        # Add 12;
+        HH -= 12
+        # Recast first two digits as string so we can reinsert into original 
+        # alarm_time string;
+        HH = str(HH)
+        # Cast original alarm_time string as list so we can replace first two 
+        # digits;
+        alarm_time_list = list(alarm_time)
+        # Replace first two characters in string (first two digits) with new 
+        # military time format;
+        alarm_time_list[0:2] = HH
+        # Join list back into a string we can pass the alarm_time argument to the 
+        # alarm_execution function; 
+        alarm_time = (''.join(alarm_time_list))
+
+    # Finally, we nest the time_conversion function inside of
+    # this one, as we still need to convert the alarm_time string into a
+    # datetime object, i.e. alarm_time2;
+    time_conversion(alarm_time)
+
 
 ####################
 
-# This function will be used to convert any PM time inputs into 24-hour format,
-# as Python does not understand AM/PM format; 
+# This function will be used to convert any PM time inputs---OTHER THAN 12:xxPM
+# times---into 24-hour format as Python does not understand AM/PM format; 
 # all we need is the alarm_time, which is entered by the user;
 def pm_time_conversion(alarm_time):
-    # Cast first two digits in alarm time as integers so we can add 12;
+    # Cast first two digits in alarm time as integers so we can exclude 12:xxPM
+    # times from the conversion; also we will need to cast the first two digits
+    # as integers in order to convert the alarm_time into a datetime object;
     HH = int((alarm_time[0:2]))
-    # Add 12;
-    HH += 12
-    # Recast first two digits as string so we can reinsert into original 
-    # alarm_time string;
-    HH = str(HH)
-    # Cast original alarm_time string as list so we can replace first two 
-    # digits;
-    alarm_time_list = list(alarm_time)
-    # Replace first two characters in string (first two digits) with new 
-    # military time format;
-    alarm_time_list[0:2] = HH
-    # Join list back into a string we can pass the alarm_time argument to the 
-    # alarm_execution function; 
-    alarm_time = (''.join(alarm_time_list))
+    if HH != 12:
+        # Add 12;
+        HH += 12
+        # Recast first two digits as string so we can reinsert into original 
+        # alarm_time string;
+        HH = str(HH)
+        # Cast original alarm_time string as list so we can replace first two 
+        # digits;
+        alarm_time_list = list(alarm_time)
+        # Replace first two characters in string (first two digits) with new 
+        # military time format;
+        alarm_time_list[0:2] = HH
+        # Join list back into a string we can pass the alarm_time argument to the 
+        # alarm_execution function; 
+        alarm_time = (''.join(alarm_time_list))
 
     # Finally, we nest the AM and military time_conversion function inside of
     # this one, as we still need to convert the alarm_time string into a
@@ -156,6 +186,9 @@ def delay_or_execute(alarm_time2):
 # This if statement will cover AM times, the if statement is there to ensure 
 # the format for the alarm time entered is correct;
 if len(alarm_time) == 7 and 'AM' in alarm_time:
+    # This if statement covers 12:xxAM times, where we need to subtract 12;
+    #if HH == 12:
+    #    HH -= 12
     # Run the time_conversion function to convert the alarm_time into a 
     # datetime object, which then gets assigned to the global variable 
     # alarm_time2;
@@ -197,4 +230,5 @@ elif len(alarm_time) == 5 and ':' in alarm_time:
 # e.g. '630AM';
 else:
     print("This is an invalid time format, please run the program again and\n" 
-    "enter a valid time format per the instructions.")
+            "enter a valid time format per the instructions.")
+    print()
