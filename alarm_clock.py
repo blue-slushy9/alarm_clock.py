@@ -56,11 +56,69 @@ def set_alarm(alarm_time2):
             # Print a new line to improve legibility in terminal;
             print()
             
+            # Ask the user whether they would like to hit snooze;
+            print("Would you like to hit snooze? [Y/N]")
+            print()
+            # Input can be Y or N; we use lower() so that it won't 
+            # matter if they type in upper or lower case;            
+            snooze = input().lower()
+            print()
+
+
+            # Create a counter, n, that will keep track of how many times
+            # the user has hit snooze, in order to pass the value to the
+            # alarm_time2 and include it in alarm() output;
+            n == 0
+            # If user wants to hit snooze...
+            while snooze == 'y':
+                # Create a counter, n, that will keep track of how many times
+                # the user has hit snooze, in order to pass the value to the
+                # alarm_time2 and include it in alarm() output;
+                #n == 0
+
+                # Create while True loop that will run for as long as user
+                # enables snooze;
+                #while True:
+                
+                # Add 1 to the n counter, which we will use in the
+                # snooze_alarm function below;
+                n += 1
+                # we add 10 minutes to alarm_time2, i.e. the alarm will go off
+                # again in 10 minutes;
+                alarm_time2 += timedelta(minutes=10)
+               
+                # Define a function, snooze_alarm, that will convert the
+                # alarm_time2 back into a string to output to the user as part
+                # of the alarm() output;
+                def snooze_alarm():
+                    n_times_10 = (n * 10)
+                    print(f"Ring! It's {n_times_10} minutes past {alarm_time}!")
+                    print()
+                    # Nest set_alarm function inside of this function;
+                    set_alarm(alarm_time2)
+
+                # Call the snooze_alarm function;
+                snooze_alarm()
+                
+                # Then we use continue to move onto the next iteration of the
+                # while loop;
+                continue
+           
+            # Else, if user does not want to hit snooze...
+            elif snooze == 'n':
+                # don't do anything, just move on with the program;
+                pass
+            # This statement will catch invalid input, e.g. 'maybe';
+            else:
+                print("Invalid input, snooze will not be enabled.")
+                print()
+                pass
+
             # Ask the user whether they want the alarm to go off again at the 
             # same time tomorrow; 
             print("Do you want this alarm to go off at the same time tomorrow?\n" 
                     "Please type 'yes' or 'y', 'no' or 'n'.")
-            # Input can be yes or no, y or n; we use lower() so that it won't 
+            # Input can be Y or N; we use lower() so that it won't 
             # matter if they type in upper or lower case;            
             tomorrow = input().lower()
             # Print a new line to improve legibility in terminal;
