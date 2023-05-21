@@ -1,9 +1,13 @@
 from datetime import datetime, timedelta
 from time import sleep
 
+# Throughout this code, I use many print() statements to enhance legibility in 
+# the terminal;
+print()
 print("This is an alarm clock app! Please enter the time you want for your\n"
         "alarm to ring. Please use the format 00:00AM or PM; military time is\n" 
         "also acceptable, e.g. 18:00 for 06:00PM.")
+print()
 
 alarm_time = input().upper()
 print()
