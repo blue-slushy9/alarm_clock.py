@@ -96,14 +96,21 @@ def set_alarm(alarm_time2):
                 alarm_time2 += timedelta(minutes=10)
 
 ################# SET SNOOZE FUNCTION
+                
+                # Create variable, n, which will be the snooze counter;
+                n = 1
+
+                # Create snooze_again variable and set it equal to 'y' to
+                # start;
+                snooze_again = 'y'
 
                 # Define a function, set_snooze, that will be the snooze
                 # version of set_alarm;
-                def set_snooze(n, alarm_time2):
-                    n = 1
+                def set_snooze(alarm_time2, n, snooze_again):
+                    #n = 1
                     # Create snooze_again variable and set it equal to 'y' to
                     # start;
-                    snooze_again = 'y'
+                    #snooze_again = 'y'
                     # Create while loop that will run for as long as 
                     # snooze_again == 'y';
                     while snooze_again == 'y':
@@ -120,7 +127,7 @@ def set_alarm(alarm_time2):
                             # ring and then prompt the user as to whether they
                             # want to hit snooze again; it then continues the
                             # loop or breaks from it based on the input;
-                            def snooze_alarm(n, alarm_time2):
+                            def snooze_alarm(n, alarm_time2, snooze_again):
                                 n_times_10 = (n * 10)
                                 print(f"Ring! It's {n_times_10} minutes past {alarm_time}!")
                                 print()
@@ -141,13 +148,17 @@ def set_alarm(alarm_time2):
                                             "enabled.")
                                     pass
                                 
-                                return n, alarm_time2
+                                return n, alarm_time2, snooze_again
                             
-                            n = snooze_alarm(n, alarm_time2)
-                            alarm_time2 = snooze_alarm(n, alarm_time2)
+                            n = snooze_alarm(n, alarm_time2, snooze_again)
+                            print(n)
+                            alarm_time2 = snooze_alarm(n, alarm_time2, snooze_again)
+                            print(alarm_time2)
+                            snooze_again = snooze_alarm(n, alarm_time2, snooze_again)
+                            print(snooze_again)
 
                             # then the alarm function will run, i.e. the alarm will ring!           
-                            snooze_alarm(n, alarm_time2)
+                            snooze_alarm(n, alarm_time2, snooze_again)
                             # Print a new line to improve legibility in terminal;
                             print()
                         
@@ -155,8 +166,14 @@ def set_alarm(alarm_time2):
                             sleep(.5)
                             continue
 
+                        return n, alarm_time2, snooze_again
+                        
+                    n = set_snooze(n, alarm_time2, snooze_again)
+                    alarm_time2 = set_snooze(n, alarm_time2, snooze_again)
+                    snooze_again = set_snooze(n, alarm_time2, snooze_again)
+
                 # Call the set_snooze function;
-                set_snooze(alarm_time2)
+                set_snooze(alarm_time2, n, snooze_again)
 
                 # Create while True loop that will go for as long as user
                 # keeps hitting snooze (we will use break to exit);
