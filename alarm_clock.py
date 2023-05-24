@@ -148,13 +148,16 @@ def set_alarm(alarm_time2):
                                             "enabled.")
                                     pass
                                 
-                                return n, alarm_time2, snooze_again
+                                return (n, alarm_time2, snooze_again)
                             
-                            n = snooze_alarm(n, alarm_time2, snooze_again)
+                            result = snooze_alarm(n, alarm_time2, snooze_again)
+                            
+                            n = result[0]
+                            alarm_time2 = result[1]
+                            snooze_again = result[2]
+
                             print(n)
-                            alarm_time2 = snooze_alarm(n, alarm_time2, snooze_again)
                             print(alarm_time2)
-                            snooze_again = snooze_alarm(n, alarm_time2, snooze_again)
                             print(snooze_again)
 
                             # then the alarm function will run, i.e. the alarm will ring!           
@@ -166,14 +169,19 @@ def set_alarm(alarm_time2):
                             sleep(.5)
                             continue
 
-                        return n, alarm_time2, snooze_again
+                        return (n, alarm_time2, snooze_again)
                         
-                    n = set_snooze(n, alarm_time2, snooze_again)
-                    alarm_time2 = set_snooze(n, alarm_time2, snooze_again)
-                    snooze_again = set_snooze(n, alarm_time2, snooze_again)
+                    result = set_snooze(n, alarm_time2, snooze_again)
 
+                    n = result[0]
+                    alarm_time2 = result[1]
+                    snooze_again = result[2]
+
+                    print(n)
+                    print(alarm_time2)
+                    print(snooze_again)
                 # Call the set_snooze function;
-                set_snooze(alarm_time2, n, snooze_again)
+                set_snooze(n, alarm_time2, snooze_again)
 
                 # Create while True loop that will go for as long as user
                 # keeps hitting snooze (we will use break to exit);
