@@ -119,6 +119,9 @@ def set_alarm(alarm_time2):
                         # Create an if statement inside of the while loop that will compare 
                         # the now variable to the alarm_time2 datetime object; 
                         # if the now variable matches or exceeds the alarm_time....
+                        print(snooze_again)
+                        print(n)
+                        print(alarm_time2)
                         if now >= alarm_time2:
                             
 ################# SNOOZE ALARM NESTED FUNCTION
@@ -151,8 +154,8 @@ def set_alarm(alarm_time2):
                                 return (n, alarm_time2, snooze_again)
                             
                             result = snooze_alarm(n, alarm_time2, snooze_again)
-                            
-                            n = result[0]
+                            print(result)
+                            n = int(result[0])
                             alarm_time2 = result[1]
                             snooze_again = result[2]
 
@@ -173,7 +176,7 @@ def set_alarm(alarm_time2):
                         
                     result = set_snooze(n, alarm_time2, snooze_again)
 
-                    n = result[0]
+                    n = int(result[0])
                     alarm_time2 = result[1]
                     snooze_again = result[2]
 
