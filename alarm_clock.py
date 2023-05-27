@@ -106,7 +106,7 @@ def set_alarm(alarm_time2):
 
                 # Define a function, set_snooze, that will be the snooze
                 # version of set_alarm;
-                def set_snooze(alarm_time2, n, snooze_again):
+                def set_snooze(n, alarm_time2, snooze_again):
                     #n = 1
                     # Create snooze_again variable and set it equal to 'y' to
                     # start;
@@ -119,9 +119,9 @@ def set_alarm(alarm_time2):
                         # Create an if statement inside of the while loop that will compare 
                         # the now variable to the alarm_time2 datetime object; 
                         # if the now variable matches or exceeds the alarm_time....
-                        print(snooze_again)
-                        print(n)
-                        print(alarm_time2)
+                        #print(snooze_again)
+                        #print(n)
+                        #print(alarm_time2)
                         if now >= alarm_time2:
                             
 ################# SNOOZE ALARM NESTED FUNCTION
@@ -163,6 +163,8 @@ def set_alarm(alarm_time2):
                             print(alarm_time2)
                             print(snooze_again)
 
+############################ CALL THE SNOOZE_ALARM FUNCTION
+
                             # then the alarm function will run, i.e. the alarm will ring!           
                             snooze_alarm(n, alarm_time2, snooze_again)
                             # Print a new line to improve legibility in terminal;
@@ -183,7 +185,9 @@ def set_alarm(alarm_time2):
                     print(n)
                     print(alarm_time2)
                     print(snooze_again)
-                # Call the set_snooze function;
+
+#################### CALL THE SET_SNOOZE FUNCTION;
+                
                 set_snooze(n, alarm_time2, snooze_again)
 
                 # Create while True loop that will go for as long as user
