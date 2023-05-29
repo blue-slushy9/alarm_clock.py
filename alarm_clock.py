@@ -95,7 +95,7 @@ def set_alarm(alarm_time2):
                 # again in 10 minutes;
                 alarm_time2 += timedelta(minutes=10)
 
-################# SET SNOOZE FUNCTION
+################# SET_SNOOZE FUNCTION
                 
                 # Create variable, n, which will be the snooze counter;
                 n = 1
@@ -121,7 +121,8 @@ def set_alarm(alarm_time2):
                         # if the now variable matches or exceeds the alarm_time....
                         #print(snooze_again)
                         #print(n)
-                        #print(alarm_time2)
+                        print(now)
+                        print(alarm_time2)
                         if now >= alarm_time2:
                             
 ################# SNOOZE ALARM NESTED FUNCTION
@@ -134,24 +135,30 @@ def set_alarm(alarm_time2):
                                 n_times_10 = (n * 10)
                                 print(f"Ring! It's {n_times_10} minutes past {alarm_time}!")
                                 print()
-                                print("Do you want to hit snooze again? [Y/N]")
-                                print()
-                                snooze_again = input().lower()
-                                print()
 
-                                if snooze_again == 'y':
-                                    n += 1
-                                    alarm_time2 += timedelta(minutes=10)
-                                    #continue
-                                elif snooze_again == 'n':
-                                    pass
-                                    #break
-                                else:
-                                    print("Invalid input, snooze will not be\n"
-                                            "enabled.")
-                                    pass
-                                
-                                return (n, alarm_time2, snooze_again)
+############################ CALL THE SNOOZE_ALARM FUNCTION;
+
+                            snooze_alarm(n, alarm_time2, snooze_again)
+                            
+                            # Run the rest of the SET_SNOOZE FUNCTION;
+                            print("Do you want to hit snooze again? [Y/N]")
+                            print()
+                            snooze_again = input().lower()
+                            print()
+
+                            if snooze_again == 'y':
+                                n += 1
+                                alarm_time2 += timedelta(minutes=10)
+                                #continue
+                            elif snooze_again == 'n':
+                                pass
+                                #break
+                            else:
+                                print("Invalid input, snooze will not be\n"
+                                        "enabled.")
+                                pass
+                            
+                            yield (n, alarm_time2, snooze_again)
                             
                             result = snooze_alarm(n, alarm_time2, snooze_again)
                             print(result)
@@ -166,7 +173,7 @@ def set_alarm(alarm_time2):
 ############################ CALL THE SNOOZE_ALARM FUNCTION
 
                             # then the alarm function will run, i.e. the alarm will ring!           
-                            snooze_alarm(n, alarm_time2, snooze_again)
+                            #snooze_alarm(n, alarm_time2, snooze_again)
                             # Print a new line to improve legibility in terminal;
                             print()
                         
@@ -174,7 +181,7 @@ def set_alarm(alarm_time2):
                             sleep(.5)
                             continue
 
-                        return (n, alarm_time2, snooze_again)
+                        yield (n, alarm_time2, snooze_again)
                         
                     result = set_snooze(n, alarm_time2, snooze_again)
 
@@ -242,6 +249,7 @@ def set_alarm(alarm_time2):
             print("Do you want this alarm to go off at the same time tomorrow?\n" 
                     "Please note it will go off at your original alarm time,\n"
                     "rather than the time the snooze alarm went off. [Y/N]")
+            print()
             # Input can be Y or N; we use lower() so that it won't 
             # matter if they type in upper or lower case;            
             tomorrow = input().lower()
