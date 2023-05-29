@@ -38,6 +38,8 @@ def time_conversion(alarm_time):
     # Add a return statement so that other functions can receive alarm_time2;
     return alarm_time2
 
+#alarm_time2 = time_conversion(alarm_time)
+
 ################ RUN TIME CONVERSION, GET ALARM_TIME2
 
 # Run time conversion function as alarm_time2 will be used for most subsequent
@@ -58,6 +60,8 @@ def alarm():
 
 # This function will be used to set the alarm, it takes the datetime object as
 # its argument;
+
+alarm_time2 = time_conversion(alarm_time)
 def set_alarm(alarm_time2):
 
     # Create a while loop that will constantly check the datetime.now, 
@@ -158,7 +162,7 @@ def set_alarm(alarm_time2):
                                         "enabled.")
                                 pass
                             
-                            yield (n, alarm_time2, snooze_again)
+                            yield [n, alarm_time2, snooze_again]
                             
                             result = snooze_alarm(n, alarm_time2, snooze_again)
                             print(result)
@@ -181,7 +185,7 @@ def set_alarm(alarm_time2):
                             sleep(.5)
                             continue
 
-                        yield (n, alarm_time2, snooze_again)
+                        yield [n, alarm_time2, snooze_again]
                         
                     result = set_snooze(n, alarm_time2, snooze_again)
 
