@@ -103,20 +103,31 @@ def set_alarm(alarm_time2):
                 
                 # Create variable, n, which will be the snooze counter;
                 n = 1
-
+                #print(n) -- yes
                 # Create snooze_again variable and set it equal to 'y' to
                 # start;
                 snooze_again = 'y'
-
+                #print(snooze_again) -- yes
                 # Define a function, set_snooze, that will be the snooze
                 # version of set_alarm;
-                def set_snooze(n, alarm_time2, snooze_again):
+
+                # Union is used to specify that the function will return more
+                # than one type of value;
+                from typing import Union
+                def set_snooze(
+                    n: int,
+                    alarm_time2: object,
+                    snooze_again: str
+                ) -> Union[int, object, str]:
+
                     #n = 1
                     # Create snooze_again variable and set it equal to 'y' to
                     # start;
                     #snooze_again = 'y'
                     # Create while loop that will run for as long as 
                     # snooze_again == 'y';
+
+                    #print(snooze_again)
                     while snooze_again == 'y':
                         now = datetime.now()
             
@@ -125,8 +136,8 @@ def set_alarm(alarm_time2):
                         # if the now variable matches or exceeds the alarm_time....
                         #print(snooze_again)
                         #print(n)
-                        print(now)
-                        print(alarm_time2)
+                        #print(now)
+                        #print(alarm_time2)
                         if now >= alarm_time2:
                             
 ################# SNOOZE ALARM NESTED FUNCTION
@@ -135,14 +146,18 @@ def set_alarm(alarm_time2):
                             # ring and then prompt the user as to whether they
                             # want to hit snooze again; it then continues the
                             # loop or breaks from it based on the input;
-                            def snooze_alarm(n, alarm_time2, snooze_again):
+                            def snooze_alarm(
+                                n: int,
+                                alarm_time: str,
+                                #snooze_again: str
+                            ) -> None:
                                 n_times_10 = (n * 10)
                                 print(f"Ring! It's {n_times_10} minutes past {alarm_time}!")
                                 print()
 
 ############################ CALL THE SNOOZE_ALARM FUNCTION;
 
-                            snooze_alarm(n, alarm_time2, snooze_again)
+                            snooze_alarm(n, alarm_time)
                             
                             # Run the rest of the SET_SNOOZE FUNCTION;
                             print("Do you want to hit snooze again? [Y/N]")
@@ -162,17 +177,17 @@ def set_alarm(alarm_time2):
                                         "enabled.")
                                 pass
                             
-                            yield [n, alarm_time2, snooze_again]
+                            return [n, alarm_time2, snooze_again]
                             
-                            result = snooze_alarm(n, alarm_time2, snooze_again)
-                            print(result)
-                            n = int(result[0])
-                            alarm_time2 = result[1]
-                            snooze_again = result[2]
+                            #result = snooze_alarm(n, alarm_time2, snooze_again)
+                            #print(result)
+                            #n = int(result[0])
+                            #alarm_time2 = result[1]
+                            #snooze_again = result[2]
 
-                            print(n)
-                            print(alarm_time2)
-                            print(snooze_again)
+                            #print(n)
+                            #print(alarm_time2)
+                            #print(snooze_again)
 
 ############################ CALL THE SNOOZE_ALARM FUNCTION
 
@@ -185,21 +200,21 @@ def set_alarm(alarm_time2):
                             sleep(.5)
                             continue
 
-                        yield [n, alarm_time2, snooze_again]
+                        #yield [n, alarm_time2, snooze_again]
                         
-                    result = set_snooze(n, alarm_time2, snooze_again)
+                #    result = set_snooze(n, alarm_time2, snooze_again)
 
-                    n = int(result[0])
-                    alarm_time2 = result[1]
-                    snooze_again = result[2]
+                #    n = int(result[0])
+                #    alarm_time2 = result[1]
+                #    snooze_again = result[2]
 
-                    print(n)
-                    print(alarm_time2)
-                    print(snooze_again)
+                #     print(n)
+                #     print(alarm_time2)
+                #     print(snooze_again)
 
 #################### CALL THE SET_SNOOZE FUNCTION;
                 
-                set_snooze(n, alarm_time2, snooze_again)
+                result = set_snooze(n, alarm_time2, snooze_again)
 
                 # Create while True loop that will go for as long as user
                 # keeps hitting snooze (we will use break to exit);
