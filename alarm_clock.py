@@ -39,18 +39,6 @@ def time_conversion(alarm_time):
     print(f"This is from time conversion: {alarm_time2}")
     return alarm_time2
 
-#alarm_time2 = time_conversion(alarm_time)
-
-################ RUN TIME CONVERSION, GET ALARM_TIME2
-
-# Run time conversion function as alarm_time2 will be used for most subsequent
-# functions;
-#time_conversion(alarm_time)
-
-# Define alarm_time2 variable at the top, as it will be used in all of the 
-# subsequent functions;
-#alarm_time2 = datetime.now()#.replace(hour=HH, minute=MM)
-
 ############### ALARM FUNCTION
 
 # Define the alarm function, which will run at the time specified in the input;
@@ -76,7 +64,6 @@ def set_alarm(alarm_time2):
         if now >= alarm_time2:
             # then the alarm function will run, i.e. the alarm will ring!           
             alarm()
-            # Print a new line to improve legibility in terminal;
             print()
 
 ############################ SNOOZE BLOCK
@@ -91,12 +78,7 @@ def set_alarm(alarm_time2):
             
             # If the user says yes to the first snooze...
             if snooze == 'y':
-                # Set the global variable snooze counter, n, equal to 1;
-                #global n 
-                #n = 1
-                # Add 1 to the n counter, which we will use in the
-                # snooze_alarm function below;
-                # we add 10 minutes to alarm_time2, i.e. the alarm will go off
+                # We add 10 minutes to alarm_time2, i.e. the alarm will go off
                 # again in 10 minutes;
                 alarm_time2 += timedelta(minutes=10)
 
@@ -104,13 +86,9 @@ def set_alarm(alarm_time2):
                 
                 # Create variable, n, which will be the snooze counter;
                 n = 1
-                #print(n) -- yes
                 # Create snooze_again variable and set it equal to 'y' to
                 # start;
                 snooze_again = 'y'
-                #print(snooze_again) -- yes
-                # Define a function, set_snooze, that will be the snooze
-                # version of set_alarm;
 
                 # Union is used to specify that the function will return more
                 # than one type of value;
@@ -121,24 +99,14 @@ def set_alarm(alarm_time2):
                     snooze_again: str
                 ) -> Union[int, object, str]:
 
-                    #n = 1
-                    # Create snooze_again variable and set it equal to 'y' to
-                    # start;
-                    #snooze_again = 'y'
                     # Create while loop that will run for as long as 
                     # snooze_again == 'y';
-
-                    #print(snooze_again)
                     while snooze_again == 'y':
                         now = datetime.now()
             
                         # Create an if statement inside of the while loop that will compare 
                         # the now variable to the alarm_time2 datetime object; 
                         # if the now variable matches or exceeds the alarm_time....
-                        #print(snooze_again)
-                        #print(n)
-                        #print(now)
-                        #print(alarm_time2)
                         if now >= alarm_time2:
                             
 ################# SNOOZE ALARM NESTED FUNCTION
@@ -150,13 +118,12 @@ def set_alarm(alarm_time2):
                             def snooze_alarm(
                                 n: int,
                                 alarm_time: str,
-                                #snooze_again: str
                             ) -> None:
                                 n_times_10 = (n * 10)
                                 print(f"Ring! It's {n_times_10} minutes past {alarm_time}!")
                                 print()
 
-############################ CALL THE SNOOZE_ALARM FUNCTION;
+############################ CALL THE SNOOZE_ALARM FUNCTION
 
                             snooze_alarm(n, alarm_time)
                             
@@ -178,18 +145,6 @@ def set_alarm(alarm_time2):
                                         "enabled.")
                                 pass
                             
-                            #return [n, alarm_time2, snooze_again]
-                            
-                            #result = snooze_alarm(n, alarm_time2, snooze_again)
-                            #print(result)
-                            #n = int(result[0])
-                            #alarm_time2 = result[1]
-                            #snooze_again = result[2]
-
-                            #print(n)
-                            #print(alarm_time2)
-                            #print(snooze_again)
-
 ############################ CALL THE SNOOZE_ALARM FUNCTION
 
                             # then the alarm function will run, i.e. the alarm will ring!           
