@@ -36,6 +36,7 @@ def time_conversion(alarm_time):
     alarm_time2 = datetime.now().replace(hour=HH, minute=MM)
 
     # Add a return statement so that other functions can receive alarm_time2;
+    print(f"This is from time conversion: {alarm_time2}")
     return alarm_time2
 
 #alarm_time2 = time_conversion(alarm_time)
@@ -61,7 +62,7 @@ def alarm():
 # This function will be used to set the alarm, it takes the datetime object as
 # its argument;
 
-alarm_time2 = time_conversion(alarm_time)
+#alarm_time2 = time_conversion(alarm_time)
 def set_alarm(alarm_time2):
 
     # Create a while loop that will constantly check the datetime.now, 
@@ -283,10 +284,10 @@ def set_alarm(alarm_time2):
                 # so that it matches the date tomorrow instead of today;
                 # We use the timedelta method to add 1 day to the alarm_time2 
                 # object, in which we previously stored the current month and day;
-                print(n)
+                #print(n)
                 alarm_time2 -= timedelta(minutes=(n*10))
                 alarm_time2 += timedelta(days=1)
-                print(alarm_time2)
+                #print(alarm_time2)
                 # Continue to next iteration of the while loop, this time with 
                 # the date of the alarm time set to tomorrow;
                 continue
@@ -344,8 +345,9 @@ def am_time_conversion(alarm_time):
     # Finally, we nest the time_conversion function inside of
     # this one, as we still need to convert the alarm_time string into a
     # datetime object, i.e. alarm_time2;
-    time_conversion(alarm_time)
-    
+    alarm_time2 = time_conversion(alarm_time)
+    return alarm_time2
+
 #################### PM TIME CONVERSION
 
 # This function will be used to convert any PM time inputs---OTHER THAN 12:xxPM
@@ -368,14 +370,20 @@ def pm_time_conversion(alarm_time):
     # Replace first two characters in string (first two digits) with new 
     # military time format;
     alarm_time_list[0:2] = HH
+    # Pop the 'M' from the end of the list;
+    alarm_time_list.pop(6)
+    # Pop the 'P' from the end of the list;
+    alarm_time_list.pop(5)
     # Join list back into a string we can pass the alarm_time argument to the 
     # alarm_execution function; 
     alarm_time = (''.join(alarm_time_list))
-    
+    print(f"This is from pm time conversion: {alarm_time}")
     # Finally, we nest the time_conversion function inside of
     # this one, as we still need to convert the alarm_time string into a
     # datetime object, i.e. alarm_time2;
-    time_conversion(alarm_time)
+    alarm_time2 = time_conversion(alarm_time)
+    print(f"This is from pm time conversion: {alarm_time2}")
+    return alarm_time2
 
 ##################### SET OR DELAY
 
@@ -407,7 +415,7 @@ def set_or_delay(alarm_time2):
 if len(alarm_time) == 7 and 'AM' in alarm_time:
     HH = int(alarm_time[0:2])
     if alarm_time[0:2] == '12':
-        am_time_conversion(alarm_time)
+        alarm_time2 = am_time_conversion(alarm_time)
         # This if statement covers 12:xxAM times, where we need to subtract 12;
         #if HH == 12:
         #    HH -= 12
@@ -415,7 +423,7 @@ if len(alarm_time) == 7 and 'AM' in alarm_time:
         # datetime object, which then gets assigned to the global variable 
         # alarm_time2;
     elif HH < 12 and HH >= 1: 
-        time_conversion(alarm_time)
+        alarm_time2 = time_conversion(alarm_time)
 
     else:
         print("This is an invalid time format, please rerun the program from\n"
@@ -435,11 +443,11 @@ elif len(alarm_time) == 7 and 'PM' in alarm_time:
     # format; the AM and military time_conversion function is also nested
     # inside of pm_time_conversion, so that the converted PM alarm_time can be
     # converted into the datetime object, alarm_time2;
-        pm_time_conversion(alarm_time)
+        alarm_time2 = pm_time_conversion(alarm_time)
 
+        print(f"This is from PM if statement: {alarm_time2}")
     elif alarm_time[0:2] == '12':
-        time_conversion(alarm_time)
-    
+        alarm_time2 = time_conversion(alarm_time)
     else:
         print("Invalid time format, please rerun the program from the start.")
         print()
