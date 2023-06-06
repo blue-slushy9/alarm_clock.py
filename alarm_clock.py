@@ -156,57 +156,10 @@ def set_alarm(alarm_time2):
                             sleep(.5)
                             continue
 
-                        #yield [n, alarm_time2, snooze_again]
-                        
-                #    result = set_snooze(n, alarm_time2, snooze_again)
-
-                #    n = int(result[0])
-                #    alarm_time2 = result[1]
-                #    snooze_again = result[2]
-
-                #     print(n)
-                #     print(alarm_time2)
-                #     print(snooze_again)
-
 #################### CALL THE SET_SNOOZE FUNCTION;
                 
                 result = set_snooze(n, alarm_time2, snooze_again)
 
-                # Create while True loop that will go for as long as user
-                # keeps hitting snooze (we will use break to exit);
-                #while True:
-                    #if snooze_again == 'y':
-
-            # Create a counter, n, that will keep track of how many times
-            # the user has hit snooze, in order to pass the value to the
-            # alarm_time2 and include it in alarm() output;
-            #n == 0
-            # If user wants to hit snooze...
-            #while snooze == 'y':
-                # Create a counter, n, that will keep track of how many times
-                # the user has hit snooze, in order to pass the value to the
-                # alarm_time2 and include it in alarm() output;
-                #n == 0
-
-                # Create while True loop that will run for as long as user
-                # enables snooze;
-                #while True:
-                
-                        # Add 1 to the n counter, which we will use in the
-                        # snooze_alarm function below;
-                        # we add 10 minutes to alarm_time2, i.e. the alarm will go off
-                        # again in 10 minutes;
-                        #alarm_time2 += timedelta(minutes=10)
-               
-                                            # Nest set_alarm function inside of this function;
-
-                # Call the snooze_alarm function;
-                #snooze_alarm()
-                
-                # Then we use continue to move onto the next iteration of the
-                # while loop;
-                #continue
-           
             # Else, if user does not want to hit snooze...
             elif snooze == 'n':
                 # don't do anything, just move on with the program;
@@ -239,10 +192,8 @@ def set_alarm(alarm_time2):
                 # so that it matches the date tomorrow instead of today;
                 # We use the timedelta method to add 1 day to the alarm_time2 
                 # object, in which we previously stored the current month and day;
-                #print(n)
                 alarm_time2 -= timedelta(minutes=(n*10))
                 alarm_time2 += timedelta(days=1)
-                #print(alarm_time2)
                 # Continue to next iteration of the while loop, this time with 
                 # the date of the alarm time set to tomorrow;
                 continue
@@ -277,11 +228,6 @@ def delay_alarm(alarm_time2):
 # This function will cover AM time conversion, which only applies during the
 # 12:xxAM times;
 def am_time_conversion(alarm_time):
-    #HH = int((alarm_time[0:2]))
-    #if HH == 12:
-    # Recast first two digits as string so we can reinsert into original 
-    # alarm_time string;
-    #HH = str(HH)
 
     # Cast original alarm_time string as list so we can replace first two 
     # digits;
@@ -342,7 +288,7 @@ def pm_time_conversion(alarm_time):
 
 ##################### SET OR DELAY
 
-# Define a function, delay_or_execute, which will be used to decide whether
+# Define a function, set_or_delay, which will be used to decide whether
 # the alarm should be delayed until tomorrow (in the case that the alarm_time
 # has already passed for today's date) or whether the alarm_execution function
 # should run normally;
@@ -355,7 +301,7 @@ def set_or_delay(alarm_time2):
         print("You've entered a time that has already passed for today's date.\n"
                 "The alarm will ring at the specified time tomorrow.")
         print()
-        # The function alarm_delay will run, which simply delays the alarm to the 
+        # The function delay_alarm will run, which simply delays the alarm to the 
         # same time tomorrow;
         delay_alarm(alarm_time2)
     # This if statement will apply if the alarm_time is in the future, 
@@ -371,9 +317,6 @@ if len(alarm_time) == 7 and 'AM' in alarm_time:
     HH = int(alarm_time[0:2])
     if alarm_time[0:2] == '12':
         alarm_time2 = am_time_conversion(alarm_time)
-        # This if statement covers 12:xxAM times, where we need to subtract 12;
-        #if HH == 12:
-        #    HH -= 12
         # Run the time_conversion function to convert the alarm_time into a 
         # datetime object, which then gets assigned to the global variable 
         # alarm_time2;
@@ -385,7 +328,7 @@ if len(alarm_time) == 7 and 'AM' in alarm_time:
                 "the start.")
         print()
 
-    # Call the function, delay_or_execute, which will decide what to do based
+    # Call the function, set_or_delay, which will decide what to do based
     # on the alarm_time2;
     set_or_delay(alarm_time2)
 
@@ -394,13 +337,12 @@ if len(alarm_time) == 7 and 'AM' in alarm_time:
 # This if statement will cover PM times;
 elif len(alarm_time) == 7 and 'PM' in alarm_time:
     if alarm_time[0:2] != '12':
-    # Call PM time conversion function to convert alarm_time into military 
-    # format; the AM and military time_conversion function is also nested
-    # inside of pm_time_conversion, so that the converted PM alarm_time can be
-    # converted into the datetime object, alarm_time2;
+        # Call PM time conversion function to convert alarm_time into military 
+        # format; the AM and military time_conversion function is also nested
+        # inside of pm_time_conversion, so that the converted PM alarm_time can be
+        # converted into the datetime object, alarm_time2;
         alarm_time2 = pm_time_conversion(alarm_time)
 
-        print(f"This is from PM if statement: {alarm_time2}")
     elif alarm_time[0:2] == '12':
         alarm_time2 = time_conversion(alarm_time)
     else:
