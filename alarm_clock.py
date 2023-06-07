@@ -168,7 +168,7 @@ def set_alarm(alarm_time2):
                             if snooze_again == 'y':
                                 n += 1
                                 alarm_time2 += timedelta(minutes=10)
-                                #continue
+                                continue
                             elif snooze_again == 'n':
                                 pass
                                 #break
@@ -177,7 +177,7 @@ def set_alarm(alarm_time2):
                                         "enabled.")
                                 pass
                             
-                            return [n, alarm_time2, snooze_again]
+                            #return [n, alarm_time2, snooze_again]
                             
                             #result = snooze_alarm(n, alarm_time2, snooze_again)
                             #print(result)
