@@ -25,7 +25,7 @@ def time_conversion(alarm_time):
     HH = int((alarm_time[0:2]))
 
     # Create a variable MM that will store the minutes portion of the alarm 
-    # time as an integer; We skip over alarm_list[2] because that is the ':' ;
+    # time as an integer; we skip over alarm_list[2] because that is the ':' ;
     MM = int((alarm_time[3:5]))
 
     # Create an alarm_time2 variable that will store the current 
@@ -36,7 +36,6 @@ def time_conversion(alarm_time):
     alarm_time2 = datetime.now().replace(hour=HH, minute=MM)
 
     # Add a return statement so that other functions can receive alarm_time2;
-    print(f"This is from time conversion: {alarm_time2}")
     return alarm_time2
 
 ############### ALARM FUNCTION
@@ -45,15 +44,13 @@ def time_conversion(alarm_time):
 def alarm():
     print(f"Ring! It's {alarm_time}, time to wake up!")
 
-############### SET ALARM BLOCK 
+####################### SET ALARM BLOCK 
 
-# This function will be used to set the alarm, it takes the datetime object as
-# its argument;
-
-#alarm_time2 = time_conversion(alarm_time)
+# This function will be used to set the alarm, it takes the datetime object, 
+# alarm_time2, as its argument;
 def set_alarm(alarm_time2):
 
-    # Create a while loop that will constantly check the datetime.now, 
+    # Create a while loop that will continuously check the datetime.now(), 
     # then assign it to the variable now; 
     while True:
         now = datetime.now()
@@ -68,10 +65,11 @@ def set_alarm(alarm_time2):
 
 ############################ SNOOZE BLOCK
 
-            # Ask the user whether they would like to hit snooze;
+            # After alarm rings, ask the user whether they would like to hit 
+            # snooze;
             print("Would you like to hit snooze? [Y/N]")
             print()
-            # Input can be Y or N; we use lower() so that it won't 
+            # Input can be Y or N, we use lower() so that it won't 
             # matter if they type in upper or lower case;            
             snooze = input().lower()
             print()
@@ -84,15 +82,22 @@ def set_alarm(alarm_time2):
 
 ################# SET_SNOOZE FUNCTION
                 
-                # Create variable, n, which will be the snooze counter;
+                # Create variable, n, which will be the snooze counter,
+                # which will keep track of how many times user has hit snooze;
                 n = 1
                 # Create snooze_again variable and set it equal to 'y' to
-                # start;
+                # start, which will be used to keep the snooze loop running,
+                # or to exit the loop if user says no;
                 snooze_again = 'y'
 
                 # Union is used to specify that the function will return more
-                # than one type of value;
+                # than one type of value, the values are defined below;
                 from typing import Union
+                
+                # Define the set_snooze function, which is the snooze alarm
+                # equivalent of the set_alarm function, i.e. it engages the
+                # snooze alarm feature, which makes the alarm go off in ten
+                # minutes;
                 def set_snooze(
                     n: int,
                     alarm_time2: object,
@@ -102,69 +107,112 @@ def set_alarm(alarm_time2):
                     # Create while loop that will run for as long as 
                     # snooze_again == 'y';
                     while snooze_again == 'y':
+                        # We need to run datetime.now() in this loop as well,
+                        # in order stay up to date with the current time, with
+                        # as much accuracy as possible;
                         now = datetime.now()
             
                         # Create an if statement inside of the while loop that will compare 
                         # the now variable to the alarm_time2 datetime object; 
-                        # if the now variable matches or exceeds the alarm_time....
+                        # if the now variable matches or exceeds the
+                        # alarm_time, then the nested snooze_alarm function 
+                        # will be called;
                         if now >= alarm_time2:
                             
-################# SNOOZE ALARM NESTED FUNCTION
+######################### DEFINE SNOOZE_ALARM NESTED FUNCTION
 
                             # Define a nested function, snooze_alarm, that will
-                            # ring and then prompt the user as to whether they
+                            # ring after the snooze period of 10 minutes, 
+                            # and then prompt the user as to whether they
                             # want to hit snooze again; it then continues the
-                            # loop or breaks from it based on the input;
+                            # loop or breaks from it based on the user input;
+                            # we use Union notation as in the last function;
                             def snooze_alarm(
-                                n: int,
-                                alarm_time: str,
+                                n: int, 
+                                alarm_time: str, 
                             ) -> None:
+                                
+                                # Define a new variable, n_times_10, which
+                                # will store the value of n * 10, which
+                                # represents the number of times the user has
+                                # hit snooze multiplied by ten minutes for
+                                # each of those times;
                                 n_times_10 = (n * 10)
-                                print(f"Ring! It's {n_times_10} minutes past {alarm_time}!")
+                                
+                                # We then use this new variable to print out
+                                # how many total minutes have passed since the
+                                # original alarm_time;
+                                print(f"Ring! It's {n_times_10} minutes past\n"
+                                        "{alarm_time}!")
                                 print()
 
-############################ CALL THE SNOOZE_ALARM FUNCTION
-
-                            snooze_alarm(n, alarm_time)
+############################ CALL THE SNOOZE_ALARM NESTED FUNCTION
                             
-                            # Run the rest of the SET_SNOOZE FUNCTION;
+                            # The snooze_alarm will ring if the above if 
+                            # statement is true;
+                            snooze_alarm(n, alarm_time)
+                    
+############################ EXIT SNOOZE_ALARM OR FINISH RUNNING SET_SNOOZE ?
+
+                            # This part of the program had to be separated
+                            # from snooze_alarm as it was causing issues for
+                            # it to be included; we can either go back into
+                            # the snooze loop or move on with the rest of the
+                            # set_alarm function based on user input;
                             print("Do you want to hit snooze again? [Y/N]")
                             print()
+                            # Again, we use lower() so it won't matter if user
+                            # types in upper or lower case;
                             snooze_again = input().lower()
                             print()
 
+                            # If user hits snooze again...
                             if snooze_again == 'y':
+                                # snooze counter increases by one;
                                 n += 1
+                                # Add 10 minutes to alarm_time2, the datetime
+                                # object;
                                 alarm_time2 += timedelta(minutes=10)
+                                # Continue to next iteration of snooze loop;
                                 continue
+                            # If user does not hit snooze again...
                             elif snooze_again == 'n':
+                                # Don't do anything, move onto the next part 
+                                # of the program;
                                 pass
-                                #break
+                            # Else statement is there in case user types in
+                            # something other than Y or N into snooze prompt;
                             else:
                                 print("Invalid input, snooze will not be\n"
                                         "enabled.")
                                 pass
                             
-############################ CALL THE SNOOZE_ALARM FUNCTION
+############################ IF ALARM_TIME2 HAS NOT ARRIVED YET
 
-                            # then the alarm function will run, i.e. the alarm will ring!           
-                            #snooze_alarm(n, alarm_time2, snooze_again)
-                            # Print a new line to improve legibility in terminal;
-                            print()
-                        
+                        # This else-if statement is here to get the loop to 
+                        # reiterate up until the correct time; if it is before
+                        # the specified time, now will always be less than 
+                        # alarm_time2;
                         elif now < alarm_time2:
+                            # We use sleep to wait .5 seconds before each loop
+                            # reiteration, to help conserve system resources;
                             sleep(.5)
                             continue
 
-#################### CALL THE SET_SNOOZE FUNCTION;
+############################ CALL THE SET_SNOOZE FUNCTION
                 
+                # The variable result does not actually get used, but I didn't
+                # want to remove anything it case it might break something;
+                # set_snooze gets called nonetheless;
                 result = set_snooze(n, alarm_time2, snooze_again)
+
+############################ BACK TO FIRST SNOOZE PROMPT
 
             # Else, if user does not want to hit snooze...
             elif snooze == 'n':
                 # don't do anything, just move on with the program;
                 pass
-            # This statement will catch invalid input, e.g. 'maybe';
+            # This else statement will catch invalid input, e.g. 'maybe';
             else:
                 print("Invalid input, snooze will not be enabled.")
                 print()
@@ -172,7 +220,7 @@ def set_alarm(alarm_time2):
 
 ############################# TOMORROW BLOCK
 
-# Ask the user whether they want the alarm to go off again at the 
+            # Ask the user whether they want the alarm to go off again at the 
             # same time tomorrow; 
             print("Do you want this alarm to go off at the same time tomorrow?\n" 
                     "Please note it will go off at your original alarm time,\n"
@@ -182,33 +230,41 @@ def set_alarm(alarm_time2):
             # Input can be Y or N; we use lower() so that it won't 
             # matter if they type in upper or lower case;            
             tomorrow = input().lower()
-            # Print a new line to improve legibility in terminal;
             print()
 
-            # If user wants alarm to ring tomorrow, we use continue to skip 
-            # the code below and proceed to next iteration of the while loop;
+            # If user wants alarm to ring tomorrow...
             if tomorrow == 'y':
-                # However, we first have to adjust the day in the alarm_time2 
-                # so that it matches the date tomorrow instead of today;
-                # We use the timedelta method to add 1 day to the alarm_time2 
-                # object, in which we previously stored the current month and day;
+                
+                # We first have to readjust the minutes in the alarm_time2 
+                # in the case that we changed them during the process of
+                # using the snooze feature; if the user did not hit snooze,
+                # this will not do anything as n == 0 in that case;
                 alarm_time2 -= timedelta(minutes=(n*10))
+                
+                # Then we use the timedelta method to add 1 day to the 
+                # alarm_time2 object, in which we previously stored the current
+                # month and day; this will make the alarm go off at the
+                # specified time tomorrow instead of today;
                 alarm_time2 += timedelta(days=1)
-                # Continue to next iteration of the while loop, this time with 
-                # the date of the alarm time set to tomorrow;
+                # Continue to next iteration of the set_alarm loop, this time 
+                # with the date of the alarm_time2 set to tomorrow;
                 continue
+            
             # If user doesn't want alarm to ring tomorrow, we use break to 
-            # exit the loop;
+            # exit the set_alarm loop;
             elif tomorrow == 'n':
                 break
+            
             # We use this else statement in the case of invalid input to the 
-            # tomorrow prompt, e.g. 'maybe';
-            # the user would then need to rerun the program from the start;
+            # tomorrow prompt, e.g. 'maybe'; the user would then need to rerun
+            # the program from the start if they want to set an alarm again;
             else:
                 print("Invalid input, please rerun the program to set a new\n" 
                         "alarm.")
                 print()
                 break
+
+#################### LAST PART OF SET_ALARM LOOP, SLEEP
 
         # Finally, insert sleep() method to add a 1-second pause between loop 
         # iterations, this helps conserve system resources;
@@ -220,7 +276,10 @@ def set_alarm(alarm_time2):
 # alarm_time (user input) has already passed or is right now; 
 # the alarm will be delayed until tomorrow at the same time;
 def delay_alarm(alarm_time2):
+    # We use the timedelta method to add 1 day to the alarm_time2 object,
+    # the alarm is set for tomorrow;
     alarm_time2 += timedelta(days=1)
+    # Call the set_alarm function with the new alarm_time2 object;
     set_alarm(alarm_time2)
 
 #################### AM TIME CONVERSION
@@ -247,6 +306,7 @@ def am_time_conversion(alarm_time):
     # this one, as we still need to convert the alarm_time string into a
     # datetime object, i.e. alarm_time2;
     alarm_time2 = time_conversion(alarm_time)
+    # We return alarm_time2 so that other functions can receive the new value;
     return alarm_time2
 
 #################### PM TIME CONVERSION
@@ -259,8 +319,7 @@ def pm_time_conversion(alarm_time):
     # times from the conversion; also we will need to cast the first two digits
     # as integers in order to convert the alarm_time into a datetime object;
     HH = int((alarm_time[0:2]))
-    #if HH < 12 and HH >= 1:
-    # Add 12;
+    # Add 12 as that is the difference between PM and military times;
     HH += 12
     # Recast first two digits as string so we can reinsert into original 
     # alarm_time string;
@@ -284,29 +343,35 @@ def pm_time_conversion(alarm_time):
     # datetime object, i.e. alarm_time2;
     alarm_time2 = time_conversion(alarm_time)
     print(f"This is from pm time conversion: {alarm_time2}")
+    # Return alarm_time2 so other functions can interact with the new value;
     return alarm_time2
 
-##################### SET OR DELAY
+##################### SET_OR_DELAY FUNCTION
 
 # Define a function, set_or_delay, which will be used to decide whether
 # the alarm should be delayed until tomorrow (in the case that the alarm_time
-# has already passed for today's date) or whether the alarm_execution function
+# has already passed for today's date) or whether the set_alarm function
 # should run normally;
 def set_or_delay(alarm_time2):
+    
     # Create a local variable, now, that will store the value of datetime.now()
     # for comparison to alarm_time2;
     now = datetime.now()
+    
     # This if statement will apply if alarm_time2 is in the past or present; 
     if alarm_time2 <= now:
         print("You've entered a time that has already passed for today's date.\n"
                 "The alarm will ring at the specified time tomorrow.")
         print()
+        
         # The function delay_alarm will run, which simply delays the alarm to the 
         # same time tomorrow;
         delay_alarm(alarm_time2)
+    
     # This if statement will apply if the alarm_time is in the future, 
-    # ergo the alarm_execution function will run;
+    # ergo the set_alarm function will run normally;
     elif alarm_time2 > now: 
+        # Call the set_alarm function;
         set_alarm(alarm_time2)
 
 ##################### AM IF STATEMENT
@@ -317,10 +382,10 @@ if len(alarm_time) == 7 and 'AM' in alarm_time:
     HH = int(alarm_time[0:2])
     if alarm_time[0:2] == '12':
         alarm_time2 = am_time_conversion(alarm_time)
+    elif HH < 12 and HH >= 1: 
         # Run the time_conversion function to convert the alarm_time into a 
         # datetime object, which then gets assigned to the global variable 
         # alarm_time2;
-    elif HH < 12 and HH >= 1: 
         alarm_time2 = time_conversion(alarm_time)
 
     else:
@@ -328,8 +393,8 @@ if len(alarm_time) == 7 and 'AM' in alarm_time:
                 "the start.")
         print()
 
-    # Call the function, set_or_delay, which will decide what to do based
-    # on the alarm_time2;
+    # Call the function, set_or_delay, which will decide whether to set or 
+    # delay the alarm based on the alarm_time2;
     set_or_delay(alarm_time2)
 
 ##################### PM IF STATEMENT
@@ -338,30 +403,33 @@ if len(alarm_time) == 7 and 'AM' in alarm_time:
 elif len(alarm_time) == 7 and 'PM' in alarm_time:
     if alarm_time[0:2] != '12':
         # Call PM time conversion function to convert alarm_time into military 
-        # format; the AM and military time_conversion function is also nested
+        # format; the standard time_conversion function is also nested
         # inside of pm_time_conversion, so that the converted PM alarm_time can be
         # converted into the datetime object, alarm_time2;
         alarm_time2 = pm_time_conversion(alarm_time)
 
     elif alarm_time[0:2] == '12':
+        # The specialized pm_time_conversion function is not needed for 12:xxPM
+        # times, so we use the standard time_conversion function;
         alarm_time2 = time_conversion(alarm_time)
+    
     else:
         print("Invalid time format, please rerun the program from the start.")
         print()
 
-    # Call the function, delay_or_execute, which will decide what to do based
-    # on the alarm_time2;
+    # Call the function, set_or_delay, which will decide whether to set or 
+    # delay the alarm based on the alarm_time2;
     set_or_delay(alarm_time2)
 
 ################## MILITARY IF STATEMENT
 
-# This statement will cover military time input;
+# This else-if statement will cover military time input;
 elif len(alarm_time) == 5 and ':' in alarm_time:
     # Run the time_conversion function to convert the alarm_time string into a
     # datetime object, assigned to the variable alarm_time2;
     alarm_time2 = time_conversion(alarm_time)
 
-    # Call the function, delay_or_execute, which will decide what to do based
+    # Call the function, set_or_delay, which will decide what to do based
     # on the alarm_time2;
     set_or_delay(alarm_time2)
 
