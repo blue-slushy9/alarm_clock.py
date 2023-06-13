@@ -267,7 +267,8 @@ def set_alarm(alarm_time2):
             # same time tomorrow; 
             print("Do you want this alarm to go off at the same time tomorrow?\n" 
                     "Please note it will go off at your original alarm time,\n"
-                    "rather than the time the snooze alarm went off. [Y/N]")
+                    "rather than the time the last snooze alarm went off.\n" 
+                    "[Y/N]")
             print()
             # Input can be Y or N; we use lower() so that it won't 
             # matter if they type in upper or lower case;            
@@ -282,7 +283,10 @@ def set_alarm(alarm_time2):
                 # so that it matches the date tomorrow instead of today;
                 # We use the timedelta method to add 1 day to the alarm_time2 
                 # object, in which we previously stored the current month and day;
+                print(n)
+                alarm_time2 -= timedelta(minutes=(n*10))
                 alarm_time2 += timedelta(days=1)
+                print(alarm_time2)
                 # Continue to next iteration of the while loop, this time with 
                 # the date of the alarm time set to tomorrow;
                 continue
